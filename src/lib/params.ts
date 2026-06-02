@@ -29,15 +29,22 @@ export type FontKey = (typeof FONTS)[number];
 export const BLOCKS = ["login", "reservas", "ecommerce", "galeria"] as const;
 export type BlockKey = (typeof BLOCKS)[number];
 
+export interface Copy {
+  head?: string;
+  sub?: string;
+  eyebrow?: string;
+}
+
 export interface LandingConfig {
   cliente: string;
   template: Template;
   color: ColorKey;
   font: FontKey;
   blocks: BlockKey[];
+  copy: Copy;
 }
 
-const DEFAULTS: LandingConfig = {
+const DEFAULTS: Omit<LandingConfig, "copy"> = {
   cliente: "Tu Negocio",
   template: "corporativo",
   color: "blue",
@@ -63,6 +70,13 @@ function parseBlocks(value: string | null): BlockKey[] {
     .filter((b): b is BlockKey => (BLOCKS as readonly string[]).includes(b));
 }
 
+function cleanText(value: string | null, max: number): string | undefined {
+  if (!value) return undefined;
+  const t = value.trim();
+  if (!t) return undefined;
+  return t.length > max ? t.slice(0, max) : t;
+}
+
 export function readConfig(search: string = window.location.search): LandingConfig {
   const p = new URLSearchParams(search);
   const cliente = (p.get("cliente") || "").trim();
@@ -72,6 +86,11 @@ export function readConfig(search: string = window.location.search): LandingConf
     color: pickEnum(p.get("color"), COLORS, DEFAULTS.color),
     font: pickEnum(p.get("font"), FONTS, DEFAULTS.font),
     blocks: parseBlocks(p.get("blocks")),
+    copy: {
+      head: cleanText(p.get("head"), 90),
+      sub: cleanText(p.get("sub"), 200),
+      eyebrow: cleanText(p.get("eb"), 48),
+    },
   };
 }
 

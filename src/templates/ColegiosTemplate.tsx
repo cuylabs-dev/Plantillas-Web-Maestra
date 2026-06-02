@@ -1,4 +1,5 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import type { Copy } from "../lib/params";
 
 const NAV = [
   { label: "Nuestro Colegio", href: "#colegio" },
@@ -24,7 +25,7 @@ const ADMISION = [
   { n: "3", t: "Postula en línea", d: "Inicia el proceso de admisión desde casa." },
 ];
 
-export default function ColegiosTemplate({ cliente }: { cliente: string }) {
+export default function ColegiosTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
   return (
     <div id="top">
       <SiteNav cliente={cliente} links={NAV} cta="Admisión" ctaHref="#admision" />
@@ -35,14 +36,14 @@ export default function ColegiosTemplate({ cliente }: { cliente: string }) {
         <div className="absolute inset-0 -z-10 opacity-20 [background-image:radial-gradient(white_1.5px,transparent_1.5px)] [background-size:28px_28px]" />
         <div className="mx-auto max-w-6xl px-6 py-24 lg:py-32">
           <span className="inline-block rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold backdrop-blur">
-            Admisión 2027 abierta
+            {copy.eyebrow || "Admisión 2027 abierta"}
           </span>
           <h1 className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
-            El colegio que las familias eligen con confianza
+            {copy.head || "El colegio que las familias eligen con confianza"}
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/85">
-            En {cliente} formamos personas íntegras: combinamos excelencia académica, valores y una
-            comunidad que acompaña a cada estudiante en su camino.
+            {copy.sub ||
+              `En ${cliente} formamos personas íntegras: combinamos excelencia académica, valores y una comunidad que acompaña a cada estudiante en su camino.`}
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
             <a href="#admision" className="inline-flex h-12 items-center rounded-full bg-white px-7 font-semibold text-slate-900 transition hover:bg-white/90">

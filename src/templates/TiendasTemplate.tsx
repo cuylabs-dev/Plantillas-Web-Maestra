@@ -1,4 +1,5 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import type { Copy } from "../lib/params";
 
 const NAV = [
   { label: "Catálogo", href: "#catalogo" },
@@ -26,7 +27,7 @@ const BENEFICIOS = [
   { t: "Soporte por WhatsApp", d: "Te ayudamos antes y después de tu compra." },
 ];
 
-export default function TiendasTemplate({ cliente }: { cliente: string }) {
+export default function TiendasTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
   return (
     <div id="top">
       <SiteNav cliente={cliente} links={NAV} cta="🛒 Mi carrito" ctaHref="#catalogo" />
@@ -36,13 +37,14 @@ export default function TiendasTemplate({ cliente }: { cliente: string }) {
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:py-24">
           <div>
             <span className="inline-block rounded-full bg-brand px-4 py-1.5 text-sm font-bold text-white">
-              Temporada de ofertas
+              {copy.eyebrow || "Temporada de ofertas"}
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">
-              Tu tienda <span className="text-brand">{cliente}</span> abierta las 24 horas
+              {copy.head ? copy.head : <>Tu tienda <span className="text-brand">{cliente}</span> abierta las 24 horas</>}
             </h1>
             <p className="mt-5 max-w-md text-lg text-slate-600">
-              Explora el catálogo, arma tu pedido y compra en línea. Una vitrina digital que nunca cierra.
+              {copy.sub ||
+                "Explora el catálogo, arma tu pedido y compra en línea. Una vitrina digital que nunca cierra."}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href="#catalogo" className="inline-flex h-12 items-center rounded-full bg-brand px-7 font-semibold text-white shadow-lg transition hover:opacity-90">

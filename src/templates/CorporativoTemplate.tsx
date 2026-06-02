@@ -1,4 +1,5 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import type { Copy } from "../lib/params";
 
 const NAV = [
   { label: "Soluciones", href: "#soluciones" },
@@ -22,7 +23,7 @@ const CASOS = [
   { m: "2x", d: "de usuarios activos luego de rediseñar la plataforma." },
 ];
 
-export default function CorporativoTemplate({ cliente }: { cliente: string }) {
+export default function CorporativoTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
   return (
     <div id="top">
       <SiteNav cliente={cliente} links={NAV} cta="Hablar con ventas" />
@@ -35,14 +36,14 @@ export default function CorporativoTemplate({ cliente }: { cliente: string }) {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-24 lg:grid-cols-2">
           <div>
             <p className="text-sm font-bold uppercase tracking-widest text-brand">
-              {cliente} · Tecnología empresarial
+              {copy.eyebrow || `${cliente} · Tecnología empresarial`}
             </p>
             <h1 className="mt-5 text-5xl font-extrabold leading-[0.98] tracking-tight text-slate-900 sm:text-6xl">
-              Construya una empresa moderna
+              {copy.head || "Construya una empresa moderna"}
             </h1>
             <p className="mt-6 max-w-lg text-lg text-slate-600">
-              Desde la estrategia hasta la ejecución, ayudamos a tu organización a operar mejor,
-              vender más y escalar con soluciones rápidas, seguras y preparadas para el futuro.
+              {copy.sub ||
+                "Desde la estrategia hasta la ejecución, ayudamos a tu organización a operar mejor, vender más y escalar con soluciones rápidas, seguras y preparadas para el futuro."}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href="#contacto" className="inline-flex h-12 items-center rounded-md bg-slate-900 px-7 font-semibold text-white transition hover:bg-slate-800">

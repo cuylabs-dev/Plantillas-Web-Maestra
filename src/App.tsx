@@ -1,12 +1,17 @@
 import { useMemo } from "react";
-import { readConfig, applyTheme, type Template } from "./lib/params";
+import { readConfig, applyTheme, type Template, type Copy } from "./lib/params";
 import ClinicasTemplate from "./templates/ClinicasTemplate";
 import CorporativoTemplate from "./templates/CorporativoTemplate";
 import GimnasiosTemplate from "./templates/GimnasiosTemplate";
 import ColegiosTemplate from "./templates/ColegiosTemplate";
 import TiendasTemplate from "./templates/TiendasTemplate";
 
-const TEMPLATES: Record<Template, (p: { cliente: string }) => JSX.Element> = {
+export interface TemplateProps {
+  cliente: string;
+  copy: Copy;
+}
+
+const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
   clinicas: ClinicasTemplate,
   corporativo: CorporativoTemplate,
   gimnasios: GimnasiosTemplate,
@@ -23,5 +28,5 @@ export default function App() {
   }, []);
 
   const Template = TEMPLATES[config.template];
-  return <Template cliente={config.cliente} />;
+  return <Template cliente={config.cliente} copy={config.copy} />;
 }

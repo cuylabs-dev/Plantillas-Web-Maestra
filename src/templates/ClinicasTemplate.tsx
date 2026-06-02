@@ -1,4 +1,5 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import type { Copy } from "../lib/params";
 
 const NAV = [
   { label: "Nosotros", href: "#nosotros" },
@@ -25,7 +26,7 @@ const STATS = [
 
 const STAFF = ["Dra. Karim Flores", "Dr. Edson Serrano", "Dra. Lucía Paredes", "Dr. Manuel Rivas"];
 
-export default function ClinicasTemplate({ cliente }: { cliente: string }) {
+export default function ClinicasTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
   return (
     <div id="top">
       <SiteNav cliente={cliente} links={NAV} cta="Reservar cita" />
@@ -36,14 +37,14 @@ export default function ClinicasTemplate({ cliente }: { cliente: string }) {
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-2 lg:py-28">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-brand shadow-sm">
-              ● Atención presencial y online
+              ● {copy.eyebrow || "Atención presencial y online"}
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-6xl">
-              Bienvenidos a <span className="text-brand">{cliente}</span>
+              {copy.head ? copy.head : <>Bienvenidos a <span className="text-brand">{cliente}</span></>}
             </h1>
             <p className="mt-5 max-w-lg text-lg text-slate-600">
-              Servicios integrales de salud y de vanguardia para lograr tu plena recuperación en el
-              menor tiempo posible, con un equipo multidisciplinario que te acompaña.
+              {copy.sub ||
+                "Servicios integrales de salud y de vanguardia para lograr tu plena recuperación en el menor tiempo posible, con un equipo multidisciplinario que te acompaña."}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href="#contacto" className="inline-flex h-12 items-center rounded-full bg-brand px-7 font-semibold text-white shadow-lg transition hover:opacity-90">
