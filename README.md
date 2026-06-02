@@ -25,10 +25,20 @@ https://plantillas-web-maestra.vercel.app/?cliente=Gimnasio%20Iron&template=gimn
 | `template` | `clinicas` · `corporativo` · `gimnasios` · `colegios` · `tiendas` |
 | `color`    | `blue` · `green` · `red` · `violet` · `orange` · `slate` |
 | `font`     | `inter` · `roboto` · `poppins` · `montserrat` |
-| `blocks`   | `login` · `reservas` · `ecommerce` · `galeria` (CSV, 0+) |
+| `blocks`   | `login` · `reservas` · `ecommerce` · `galeria` (CSV, reservado para extensiones) |
 | `cliente`  | texto libre (URL-encoded) |
 
 Cualquier valor fuera del enum cae a un default seguro (la página nunca se rompe).
+
+### Plantillas (cada una con identidad propia, no genérica)
+
+| Template      | Inspiración        | Secciones |
+|---------------|--------------------|-----------|
+| `clinicas`    | Neomédica          | Hero salud · stats de confianza · especialidades · staff · reserva |
+| `corporativo` | IBM                | Hero editorial · logos · soluciones · casos de éxito con métricas |
+| `gimnasios`   | Fight Academy / Orangetheory | **Dark** · packs de precios · beneficios · FAQ · "Prueba 1 sesión" |
+| `colegios`    | Colegio San Pedro  | Hero Open Day · ¿qué ofrecemos? · pilares · galería · admisión en 3 pasos |
+| `tiendas`     | E-commerce         | Hero promo · categorías · grid de catálogo · ofertas · beneficios de compra |
 
 ## Desarrollo
 
@@ -51,8 +61,12 @@ npm run preview
 ```
 src/
 ├── lib/params.ts          # Lee y valida el Contrato de URL + aplica tema (color/font)
-├── data/templates.ts      # Copy de las 5 plantillas
-├── components/            # Hero, Features, CTA, Footer
-│   └── blocks/            # login, reservas, ecommerce, galeria (dinámicos)
-└── App.tsx                # Orquesta: lee config → pinta plantilla + bloques
+├── components/site.tsx    # UI kit compartido (SiteNav, SiteFooter, Section, etc.)
+├── templates/             # Una plantilla premium por rubro
+│   ├── ClinicasTemplate.tsx
+│   ├── CorporativoTemplate.tsx
+│   ├── GimnasiosTemplate.tsx
+│   ├── ColegiosTemplate.tsx
+│   └── TiendasTemplate.tsx
+└── App.tsx                # Lee config → enruta a la plantilla correcta
 ```
