@@ -27,10 +27,18 @@ const BENEFICIOS = [
   { t: "Soporte por WhatsApp", d: "Te ayudamos antes y después de tu compra." },
 ];
 
-export default function TiendasTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
+export default function TiendasTemplate({
+  cliente,
+  copy,
+  logoUrl,
+}: {
+  cliente: string;
+  copy: Copy;
+  logoUrl?: string;
+}) {
   return (
     <div id="top">
-      <SiteNav cliente={cliente} links={NAV} cta="🛒 Mi carrito" ctaHref="#catalogo" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="🛒 Mi carrito" ctaHref="#catalogo" />
 
       {/* Hero promo */}
       <header className="bg-brand-soft">

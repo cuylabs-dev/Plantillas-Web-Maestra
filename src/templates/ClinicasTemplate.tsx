@@ -26,10 +26,18 @@ const STATS = [
 
 const STAFF = ["Dra. Karim Flores", "Dr. Edson Serrano", "Dra. Lucía Paredes", "Dr. Manuel Rivas"];
 
-export default function ClinicasTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
+export default function ClinicasTemplate({
+  cliente,
+  copy,
+  logoUrl,
+}: {
+  cliente: string;
+  copy: Copy;
+  logoUrl?: string;
+}) {
   return (
     <div id="top">
-      <SiteNav cliente={cliente} links={NAV} cta="Reservar cita" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="Reservar cita" />
 
       {/* Hero */}
       <header className="relative overflow-hidden bg-brand-soft">

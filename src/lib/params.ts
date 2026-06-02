@@ -1,6 +1,6 @@
 // ============================================================================
 // CONTRATO DE URL  (debe coincidir EXACTO con el generador en preparador.js)
-//   https://<factoria>.vercel.app/?cliente=<txt>&template=<t>&color=<c>&font=<f>&blocks=<csv>
+//   ?cliente=&template=&color=&font=&blocks=&head=&sub=&eb=&pri=<hex>&logo=<https url>
 // Si cambias un nombre aqui, hay que cambiarlo tambien en el Investigador.
 // ============================================================================
 
@@ -42,6 +42,10 @@ export interface LandingConfig {
   font: FontKey;
   blocks: BlockKey[];
   copy: Copy;
+  /** Color primario de marca (#hex sin #) desde logo / Gemini Vision */
+  brandPrimary?: string;
+  /** URL del logo para el navbar (HTTPS, corta) */
+  logoUrl?: string;
 }
 
 const DEFAULTS: Omit<LandingConfig, "copy"> = {
@@ -77,6 +81,42 @@ function cleanText(value: string | null, max: number): string | undefined {
   return t.length > max ? t.slice(0, max) : t;
 }
 
+function parseHexPrimary(value: string | null): string | undefined {
+  if (!value) return undefined;
+  let h = value.trim().replace(/^#/, "");
+  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return undefined;
+  return h.toLowerCase();
+}
+
+function parseLogoUrl(value: string | null): string | undefined {
+  if (!value) return undefined;
+  const u = value.trim();
+  if (!u.startsWith("https://") || u.length > 600) return undefined;
+  return u;
+}
+
+export function paletteFromPrimary(hex: string): Record<string, string> | null {
+  const n = parseHexPrimary(hex);
+  if (!n) return null;
+  const r = parseInt(n.slice(0, 2), 16);
+  const g = parseInt(n.slice(2, 4), 16);
+  const b = parseInt(n.slice(4, 6), 16);
+  const toHex = (R: number, G: number, B: number) =>
+    `#${[R, G, B]
+      .map((x) => Math.min(255, Math.max(0, Math.round(x))).toString(16).padStart(2, "0"))
+      .join("")}`;
+  const tint = (w: number) => toHex(r + (255 - r) * w, g + (255 - g) * w, b + (255 - b) * w);
+  const shade = (f: number) => toHex(r * f, g * f, b * f);
+  return {
+    50: tint(0.92),
+    100: tint(0.85),
+    500: `#${n}`,
+    600: shade(0.88),
+    700: shade(0.72),
+  };
+}
+
 export function readConfig(search: string = window.location.search): LandingConfig {
   const p = new URLSearchParams(search);
   const cliente = (p.get("cliente") || "").trim();
@@ -91,6 +131,8 @@ export function readConfig(search: string = window.location.search): LandingConf
       sub: cleanText(p.get("sub"), 200),
       eyebrow: cleanText(p.get("eb"), 48),
     },
+    brandPrimary: parseHexPrimary(p.get("pri")),
+    logoUrl: parseLogoUrl(p.get("logo")),
   };
 }
 
@@ -113,7 +155,9 @@ export const FONT_STACKS: Record<FontKey, string> = {
 
 export function applyTheme(config: LandingConfig): void {
   const root = document.documentElement;
-  const palette = PALETTES[config.color];
+  const custom =
+    config.brandPrimary && paletteFromPrimary(config.brandPrimary);
+  const palette = custom || PALETTES[config.color];
   Object.entries(palette).forEach(([k, v]) => {
     root.style.setProperty(`--brand-${k}`, v);
   });

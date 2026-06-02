@@ -8,13 +8,14 @@ export interface NavLink {
 
 interface SiteNavProps {
   cliente: string;
+  logoUrl?: string;
   links: NavLink[];
   cta: string;
   ctaHref?: string;
   dark?: boolean;
 }
 
-export function SiteNav({ cliente, links, cta, ctaHref = "#contacto", dark }: SiteNavProps) {
+export function SiteNav({ cliente, logoUrl, links, cta, ctaHref = "#contacto", dark }: SiteNavProps) {
   return (
     <div
       className={`sticky top-0 z-50 backdrop-blur ${
@@ -22,8 +23,16 @@ export function SiteNav({ cliente, links, cta, ctaHref = "#contacto", dark }: Si
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="text-lg font-extrabold tracking-tight">
-          {cliente}
+        <a href="#top" className="flex min-w-0 max-w-[55%] items-center gap-3">
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt=""
+              className="h-10 w-auto max-w-[120px] shrink-0 object-contain object-left"
+              referrerPolicy="no-referrer"
+            />
+          ) : null}
+          <span className="truncate text-lg font-extrabold tracking-tight">{cliente}</span>
         </a>
         <div className="hidden items-center gap-7 md:flex">
           {links.map((l) => (

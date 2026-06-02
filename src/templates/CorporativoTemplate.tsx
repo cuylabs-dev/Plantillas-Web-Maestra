@@ -23,10 +23,18 @@ const CASOS = [
   { m: "2x", d: "de usuarios activos luego de rediseñar la plataforma." },
 ];
 
-export default function CorporativoTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
+export default function CorporativoTemplate({
+  cliente,
+  copy,
+  logoUrl,
+}: {
+  cliente: string;
+  copy: Copy;
+  logoUrl?: string;
+}) {
   return (
     <div id="top">
-      <SiteNav cliente={cliente} links={NAV} cta="Hablar con ventas" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="Hablar con ventas" />
 
       {/* Hero editorial */}
       <header className="relative overflow-hidden bg-white">

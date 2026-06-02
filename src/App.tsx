@@ -9,6 +9,7 @@ import TiendasTemplate from "./templates/TiendasTemplate";
 export interface TemplateProps {
   cliente: string;
   copy: Copy;
+  logoUrl?: string;
 }
 
 const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
@@ -28,5 +29,7 @@ export default function App() {
   }, []);
 
   const Template = TEMPLATES[config.template];
-  return <Template cliente={config.cliente} copy={config.copy} />;
+  return (
+    <Template cliente={config.cliente} copy={config.copy} logoUrl={config.logoUrl} />
+  );
 }

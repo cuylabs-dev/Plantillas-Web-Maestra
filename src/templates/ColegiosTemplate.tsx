@@ -25,10 +25,18 @@ const ADMISION = [
   { n: "3", t: "Postula en línea", d: "Inicia el proceso de admisión desde casa." },
 ];
 
-export default function ColegiosTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
+export default function ColegiosTemplate({
+  cliente,
+  copy,
+  logoUrl,
+}: {
+  cliente: string;
+  copy: Copy;
+  logoUrl?: string;
+}) {
   return (
     <div id="top">
-      <SiteNav cliente={cliente} links={NAV} cta="Admisión" ctaHref="#admision" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="Admisión" ctaHref="#admision" />
 
       {/* Hero estilo Open Day */}
       <header className="relative overflow-hidden bg-slate-900 text-white">

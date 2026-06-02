@@ -37,11 +37,19 @@ const FAQ = [
   { q: "¿Cómo reservo mi clase?", a: "Por WhatsApp o desde la app. Recomendamos reservar con anticipación para asegurar tu cupo." },
 ];
 
-export default function GimnasiosTemplate({ cliente, copy }: { cliente: string; copy: Copy }) {
+export default function GimnasiosTemplate({
+  cliente,
+  copy,
+  logoUrl,
+}: {
+  cliente: string;
+  copy: Copy;
+  logoUrl?: string;
+}) {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <div id="top" className="bg-slate-950 text-white">
-      <SiteNav cliente={cliente} links={NAV} cta="Reservar clase" dark />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="Reservar clase" dark />
 
       {/* Hero */}
       <header className="relative overflow-hidden">
