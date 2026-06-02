@@ -29,6 +29,10 @@ export type FontKey = (typeof FONTS)[number];
 export const BLOCKS = ["login", "reservas", "ecommerce", "galeria"] as const;
 export type BlockKey = (typeof BLOCKS)[number];
 
+/** Sub-estilo de plantilla gimnasios (?v=) */
+export const GYM_VARIANTS = ["fight", "crossfit", "wellness", "premium", "fit", "studio"] as const;
+export type GymVariant = (typeof GYM_VARIANTS)[number];
+
 export interface Copy {
   head?: string;
   sub?: string;
@@ -46,6 +50,8 @@ export interface LandingConfig {
   brandPrimary?: string;
   /** URL del logo para el navbar (HTTPS, corta) */
   logoUrl?: string;
+  /** Layout gimnasios: fight | crossfit | wellness | premium | fit */
+  gymVariant?: GymVariant;
 }
 
 const DEFAULTS: Omit<LandingConfig, "copy"> = {
@@ -133,6 +139,7 @@ export function readConfig(search: string = window.location.search): LandingConf
     },
     brandPrimary: parseHexPrimary(p.get("pri")),
     logoUrl: parseLogoUrl(p.get("logo")),
+    gymVariant: pickEnum(p.get("v"), GYM_VARIANTS, "fit"),
   };
 }
 

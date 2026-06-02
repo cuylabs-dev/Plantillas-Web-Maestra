@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { readConfig, applyTheme, type Template, type Copy } from "./lib/params";
+import { readConfig, applyTheme, type Template, type Copy, type GymVariant } from "./lib/params";
 import ClinicasTemplate from "./templates/ClinicasTemplate";
 import CorporativoTemplate from "./templates/CorporativoTemplate";
 import GimnasiosTemplate from "./templates/GimnasiosTemplate";
@@ -10,6 +10,7 @@ export interface TemplateProps {
   cliente: string;
   copy: Copy;
   logoUrl?: string;
+  gymVariant?: GymVariant;
 }
 
 const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
@@ -30,6 +31,11 @@ export default function App() {
 
   const Template = TEMPLATES[config.template];
   return (
-    <Template cliente={config.cliente} copy={config.copy} logoUrl={config.logoUrl} />
+    <Template
+      cliente={config.cliente}
+      copy={config.copy}
+      logoUrl={config.logoUrl}
+      gymVariant={config.gymVariant}
+    />
   );
 }
