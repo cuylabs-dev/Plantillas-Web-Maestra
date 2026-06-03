@@ -1,6 +1,6 @@
 // ============================================================================
 // CONTRATO DE URL  (debe coincidir EXACTO con el generador en preparador.js)
-//   ?cliente=&template=&color=&font=&blocks=&head=&sub=&eb=&pri=<hex>&logo=<https url>
+//   ?cliente=&template=&color=&font=&blocks=&sec=&head=&sub=&eb=&pri=<hex>&logo=<https url>
 // Si cambias un nombre aqui, hay que cambiarlo tambien en el Investigador.
 // ============================================================================
 
@@ -45,6 +45,8 @@ export interface LandingConfig {
   color: ColorKey;
   font: FontKey;
   blocks: BlockKey[];
+  /** Secciones modulares activas (?sec=hero,planes,...) */
+  sections: string[];
   copy: Copy;
   /** Color primario de marca (#hex sin #) desde logo / Gemini Vision */
   brandPrimary?: string;
@@ -54,7 +56,9 @@ export interface LandingConfig {
   gymVariant?: GymVariant;
 }
 
-const DEFAULTS: Omit<LandingConfig, "copy"> = {
+import { parseSectionIds, resolveSections } from "../catalog/index";
+
+const DEFAULTS: Omit<LandingConfig, "copy" | "sections"> = {
   cliente: "Tu Negocio",
   template: "corporativo",
   color: "blue",
@@ -126,12 +130,15 @@ export function paletteFromPrimary(hex: string): Record<string, string> | null {
 export function readConfig(search: string = window.location.search): LandingConfig {
   const p = new URLSearchParams(search);
   const cliente = (p.get("cliente") || "").trim();
+  const template = pickEnum(p.get("template"), TEMPLATES, DEFAULTS.template);
+  const sectionIds = parseSectionIds(p.get("sec"), template);
   return {
     cliente: cliente.length > 0 ? cliente : DEFAULTS.cliente,
-    template: pickEnum(p.get("template"), TEMPLATES, DEFAULTS.template),
+    template,
     color: pickEnum(p.get("color"), COLORS, DEFAULTS.color),
     font: pickEnum(p.get("font"), FONTS, DEFAULTS.font),
     blocks: parseBlocks(p.get("blocks")),
+    sections: resolveSections(template, sectionIds),
     copy: {
       head: cleanText(p.get("head"), 90),
       sub: cleanText(p.get("sub"), 200),

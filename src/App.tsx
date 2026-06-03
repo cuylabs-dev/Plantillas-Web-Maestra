@@ -11,6 +11,7 @@ export interface TemplateProps {
   copy: Copy;
   logoUrl?: string;
   gymVariant?: GymVariant;
+  activeSections: string[];
 }
 
 const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
@@ -36,6 +37,7 @@ export default function App() {
       copy={config.copy}
       logoUrl={config.logoUrl}
       gymVariant={config.gymVariant}
+      activeSections={config.sections}
     />
   );
 }

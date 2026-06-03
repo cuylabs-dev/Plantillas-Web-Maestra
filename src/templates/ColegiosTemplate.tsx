@@ -1,12 +1,7 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
 import type { Copy } from "../lib/params";
-
-const NAV = [
-  { label: "Nuestro Colegio", href: "#colegio" },
-  { label: "¿Qué ofrecemos?", href: "#oferta" },
-  { label: "¿Por qué nosotros?", href: "#porque" },
-  { label: "Admisión", href: "#admision" },
-];
+import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
+import GenericSection from "../catalog/GenericSection";
 
 const OFERTA = [
   { t: "Early Years", d: "Primeros años con estimulación y juego guiado." },
@@ -29,16 +24,22 @@ export default function ColegiosTemplate({
   cliente,
   copy,
   logoUrl,
+  activeSections = DEFAULT_SECTIONS.colegios,
 }: {
   cliente: string;
   copy: Copy;
   logoUrl?: string;
+  activeSections?: string[];
 }) {
+  const show = makeShow(activeSections);
+  const nav = buildNavLinks("colegios", activeSections);
+  const genericIds = ["docentes", "calendario", "padres", "faq", "cta", "contacto"];
+
   return (
     <div id="top">
-      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="Admisión" ctaHref="#admision" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Admisión" ctaHref="#admision" />
 
-      {/* Hero estilo Open Day */}
+      {show("hero") && (
       <header className="relative overflow-hidden bg-slate-900 text-white">
         <div className="absolute inset-0 -z-10 brand-gradient opacity-90" />
         <div className="absolute inset-0 -z-10 opacity-20 [background-image:radial-gradient(white_1.5px,transparent_1.5px)] [background-size:28px_28px]" />
@@ -63,9 +64,10 @@ export default function ColegiosTemplate({
           </div>
         </div>
       </header>
+      )}
 
-      {/* Nuestro colegio */}
-      <Section id="colegio">
+      {show("niveles") && (
+      <Section id="niveles">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <SectionHead eyebrow="Nuestro colegio" title="Una propuesta educativa con propósito" />
@@ -88,9 +90,10 @@ export default function ColegiosTemplate({
           <div className="aspect-[4/3] rounded-3xl brand-gradient opacity-90 shadow-xl" />
         </div>
       </Section>
+      )}
 
-      {/* Qué ofrecemos */}
-      <Section id="oferta" className="bg-slate-50">
+      {show("metodologia") && (
+      <Section id="metodologia" className="bg-slate-50">
         <SectionHead eyebrow="¿Qué ofrecemos?" title="Educación integral en cada etapa" center />
         <div className="grid gap-6 md:grid-cols-3">
           {OFERTA.map((o) => (
@@ -102,9 +105,10 @@ export default function ColegiosTemplate({
           ))}
         </div>
       </Section>
+      )}
 
-      {/* Por qué nosotros / pilares */}
-      <Section id="porque">
+      {show("vida_escolar") && (
+      <Section id="vida_escolar">
         <SectionHead eyebrow="¿Por qué estudiar aquí?" title="Nuestros pilares" center />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {PILARES.map((p, i) => (
@@ -115,9 +119,10 @@ export default function ColegiosTemplate({
           ))}
         </div>
       </Section>
+      )}
 
-      {/* Galería */}
-      <Section className="bg-slate-50">
+      {show("instalaciones") && (
+      <Section id="instalaciones" className="bg-slate-50">
         <SectionHead eyebrow="Nuestro espacio" title="Ambientes pensados para aprender" center />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -125,8 +130,9 @@ export default function ColegiosTemplate({
           ))}
         </div>
       </Section>
+      )}
 
-      {/* Admisión */}
+      {show("admision") && (
       <Section id="admision">
         <div className="rounded-3xl bg-slate-900 px-8 py-14 text-white sm:px-14">
           <SectionHead eyebrow="Admisión" title="Tu proceso de admisión en 3 pasos" dark />
@@ -144,6 +150,11 @@ export default function ColegiosTemplate({
           </a>
         </div>
       </Section>
+      )}
+
+      {genericIds.map(
+        (sid) => show(sid) && <GenericSection key={sid} id={sid} template="colegios" cliente={cliente} />,
+      )}
 
       <SiteFooter
         cliente={cliente}

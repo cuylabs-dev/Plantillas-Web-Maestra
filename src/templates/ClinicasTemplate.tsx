@@ -1,12 +1,7 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
 import type { Copy } from "../lib/params";
-
-const NAV = [
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Especialidades", href: "#especialidades" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Staff", href: "#staff" },
-];
+import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
+import GenericSection from "../catalog/GenericSection";
 
 const ESPECIALIDADES = [
   { n: "Dermatología", d: "Cuidado integral de la piel con tecnología de vanguardia." },
@@ -30,16 +25,22 @@ export default function ClinicasTemplate({
   cliente,
   copy,
   logoUrl,
+  activeSections = DEFAULT_SECTIONS.clinicas,
 }: {
   cliente: string;
   copy: Copy;
   logoUrl?: string;
+  activeSections?: string[];
 }) {
+  const show = makeShow(activeSections);
+  const nav = buildNavLinks("clinicas", activeSections);
+  const genericIds = ["precios", "reservas", "antes_despues", "seguros", "ubicacion", "faq", "cta"];
+
   return (
     <div id="top">
-      <SiteNav cliente={cliente} logoUrl={logoUrl} links={NAV} cta="Reservar cita" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Reservar cita" />
 
-      {/* Hero */}
+      {show("hero") && (
       <header className="relative overflow-hidden bg-brand-soft">
         <div className="absolute right-[-10%] top-[-20%] h-[420px] w-[420px] rounded-full brand-gradient opacity-20 blur-3xl" />
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-2 lg:py-28">
@@ -72,9 +73,10 @@ export default function ClinicasTemplate({
           </div>
         </div>
       </header>
+      )}
 
-      {/* Stats */}
-      <div className="border-y border-slate-100 bg-white">
+      {show("confianza") && (
+      <div id="confianza" className="border-y border-slate-100 bg-white">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-6 py-12 md:grid-cols-4">
           {STATS.map((s) => (
             <div key={s.l} className="text-center">
@@ -84,35 +86,11 @@ export default function ClinicasTemplate({
           ))}
         </div>
       </div>
+      )}
 
-      {/* Nosotros */}
-      <Section id="nosotros">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="aspect-square rounded-3xl bg-brand-soft" />
-          <div>
-            <SectionHead
-              eyebrow="Quiénes somos"
-              title="Experiencia y confianza en cada diagnóstico"
-              subtitle="Somos un centro médico moderno que combina tecnología de vanguardia con un equipo altamente capacitado, comprometido con tu bienestar."
-            />
-            <ul className="space-y-4">
-              {["Compromiso con tu bienestar", "Excelencia profesional", "Innovación constante"].map(
-                (t) => (
-                  <li key={t} className="flex items-start gap-3">
-                    <span className="mt-1 flex h-6 w-6 flex-none items-center justify-center rounded-full bg-brand text-xs text-white">
-                      ✓
-                    </span>
-                    <span className="font-medium text-slate-700">{t}</span>
-                  </li>
-                ),
-              )}
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      {/* Especialidades */}
-      <Section id="especialidades" className="bg-slate-50">
+      {show("servicios") && (
+      <>
+      <Section id="servicios" className="bg-slate-50">
         <SectionHead eyebrow="Lo que hacemos" title="Nuestras especialidades" center />
         <div className="grid gap-6 md:grid-cols-3">
           {ESPECIALIDADES.map((e) => (
@@ -122,30 +100,26 @@ export default function ClinicasTemplate({
               </div>
               <h3 className="text-lg font-bold text-slate-900">{e.n}</h3>
               <p className="mt-2 text-sm text-slate-500">{e.d}</p>
-              <span className="mt-4 inline-block text-sm font-semibold text-brand opacity-0 transition group-hover:opacity-100">
-                Más info →
-              </span>
             </div>
           ))}
         </div>
       </Section>
-
-      {/* Servicios destacados */}
-      <Section id="servicios">
+      <Section id="especialidades">
         <div className="rounded-3xl brand-gradient px-8 py-14 text-white sm:px-14">
           <div className="max-w-2xl">
             <p className="text-sm font-bold uppercase tracking-widest text-white/80">Tu bienestar es prioridad</p>
             <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Salud integral en un solo lugar</h2>
             <p className="mt-4 text-white/85">
-              Años de trayectoria ofreciendo soluciones de salud precisas y oportunas, con atención
-              cercana y centrada en cada paciente.
+              Años de trayectoria ofreciendo soluciones de salud precisas y oportunas.
             </p>
           </div>
         </div>
       </Section>
+      </>
+      )}
 
-      {/* Staff */}
-      <Section id="staff" className="bg-slate-50">
+      {show("equipo") && (
+      <Section id="equipo" className="bg-slate-50">
         <SectionHead eyebrow="Staff profesional" title="Un equipo de expertos listo para atenderte" center />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {STAFF.map((nombre) => (
@@ -159,8 +133,13 @@ export default function ClinicasTemplate({
           ))}
         </div>
       </Section>
+      )}
 
-      {/* CTA */}
+      {genericIds.map(
+        (sid) => show(sid) && <GenericSection key={sid} id={sid} template="clinicas" cliente={cliente} />,
+      )}
+
+      {show("contacto") && (
       <Section id="contacto">
         <div className="rounded-3xl bg-slate-900 px-8 py-16 text-center text-white sm:px-16">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Da el primer paso hacia tu bienestar</h2>
@@ -172,6 +151,7 @@ export default function ClinicasTemplate({
           </a>
         </div>
       </Section>
+      )}
 
       <SiteFooter
         cliente={cliente}

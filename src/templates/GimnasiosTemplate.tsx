@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { SiteNav, Section, SiteFooter } from "../components/site";
 import type { Copy, GymVariant } from "../lib/params";
-
-const NAV = [
-  { label: "Entrenamiento", href: "#entrenamiento" },
-  { label: "Planes", href: "#planes" },
-  { label: "Beneficios", href: "#beneficios" },
-  { label: "FAQ", href: "#faq" },
-];
+import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
+import GenericSection from "../catalog/GenericSection";
+import {
+  CoachesCampeonesSection,
+  EventosGymSection,
+  EventosPeleasSection,
+} from "../components/GymExtraSections";
 
 function normalizeVariant(v?: GymVariant): ActiveVariant {
   if (v === "studio") return "crossfit";
@@ -148,19 +148,25 @@ export default function GimnasiosTemplate({
   copy,
   logoUrl,
   gymVariant,
+  activeSections = DEFAULT_SECTIONS.gimnasios,
 }: {
   cliente: string;
   copy: Copy;
   logoUrl?: string;
   gymVariant?: GymVariant;
+  activeSections?: string[];
 }) {
   const v = normalizeVariant(gymVariant);
   const C = CONTENT[v];
+  const show = makeShow(activeSections);
+  const nav = buildNavLinks("gimnasios", activeSections);
+  const dark = v !== "wellness";
   const [open, setOpen] = useState(0);
   const isLight = v === "wellness";
   const isFight = v === "fight";
   const isCross = v === "crossfit";
   const isPremium = v === "premium";
+  const showPeleas = show("eventos_peleas") || (isFight && show("eventos"));
 
   const rootClass = isLight
     ? "bg-slate-50 text-slate-900"
@@ -193,11 +199,12 @@ export default function GimnasiosTemplate({
       <SiteNav
         cliente={cliente}
         logoUrl={logoUrl}
-        links={NAV}
+        links={nav}
         cta={C.navCta}
         dark={!isLight}
       />
 
+      {show("hero") && (
       <header className={`relative overflow-hidden ${heroClass}`}>
         {!isLight && (
           <div className="absolute right-[-10%] top-[-20%] -z-10 h-[500px] w-[500px] rounded-full brand-gradient opacity-20 blur-3xl" />
@@ -258,7 +265,11 @@ export default function GimnasiosTemplate({
           </div>
         </div>
       </header>
+      )}
 
+      {show("stats") && <GenericSection id="stats" template="gimnasios" cliente={cliente} dark={dark} />}
+
+      {show("entrenamiento") && (
       <Section id="entrenamiento" className={isLight ? "border-y border-slate-200" : "border-y border-white/10"}>
         <div className="grid gap-8 md:grid-cols-3">
           {C.benefits.map((b, i) => (
@@ -272,7 +283,17 @@ export default function GimnasiosTemplate({
           ))}
         </div>
       </Section>
+      )}
 
+      {show("beneficios") && (
+        <GenericSection id="beneficios" template="gimnasios" cliente={cliente} dark={dark} />
+      )}
+
+      {show("coaches_campeones") && (
+        <CoachesCampeonesSection cliente={cliente} dark={dark} />
+      )}
+
+      {show("planes") && (
       <Section id="planes">
         <div className="mb-12 text-center">
           <p className="text-sm font-bold uppercase tracking-widest text-brand">Membresías</p>
@@ -330,7 +351,26 @@ export default function GimnasiosTemplate({
           ))}
         </div>
       </Section>
+      )}
 
+      {show("eventos") && <EventosGymSection cliente={cliente} dark={dark} />}
+
+      {showPeleas && <EventosPeleasSection cliente={cliente} dark={dark} />}
+
+      {["coaches", "horarios", "galeria", "testimonios"].map(
+        (sid) =>
+          show(sid) && (
+            <GenericSection
+              key={sid}
+              id={sid}
+              template="gimnasios"
+              cliente={cliente}
+              dark={dark}
+            />
+          ),
+      )}
+
+      {show("faq") && (
       <Section id="faq">
         <h2 className={`mb-10 text-center text-3xl font-extrabold ${isLight ? "text-slate-900" : ""}`}>
           Preguntas frecuentes
@@ -359,7 +399,11 @@ export default function GimnasiosTemplate({
           ))}
         </div>
       </Section>
+      )}
 
+      {show("cta") && <GenericSection id="cta" template="gimnasios" cliente={cliente} dark={dark} />}
+
+      {show("contacto") && (
       <Section id="contacto" className="bg-brand">
         <div className="text-center">
           <h2 className="text-4xl font-extrabold uppercase tracking-tight text-white">
@@ -376,6 +420,7 @@ export default function GimnasiosTemplate({
           </a>
         </div>
       </Section>
+      )}
 
       <SiteFooter cliente={cliente} tagline={C.tagline} columns={C.footerCols} dark={!isLight} />
     </div>
