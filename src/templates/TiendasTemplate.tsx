@@ -1,4 +1,7 @@
 import { SiteNav, Section, SiteFooter } from "../components/site";
+import { SubPagePills } from "../components/SubPagePills";
+import StockImage from "../components/StockImage";
+import { Motion } from "../components/motion";
 import type { Copy } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 import GenericSection from "../catalog/GenericSection";
@@ -67,6 +70,7 @@ export default function TiendasTemplate({
       <div className="bg-slate-900 text-white">
         <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Cuenta" dark ctaHref="#contacto" />
       </div>
+      <SubPagePills items={nav} />
 
       {/* Barra tipo Amazon */}
       <div className="border-b border-slate-200 bg-white px-4 py-3 shadow-sm">
@@ -92,7 +96,7 @@ export default function TiendasTemplate({
         <header className="bg-white">
           <div className="mx-auto max-w-6xl px-4 py-8 lg:py-12">
             <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-              <div>
+              <Motion variant="left">
                 <span className="rounded bg-brand px-2 py-1 text-xs font-bold text-white">
                   {copy.eyebrow || "Envío rápido Lima"}
                 </span>
@@ -106,8 +110,8 @@ export default function TiendasTemplate({
                 <p className="mt-4 text-lg text-slate-600">
                   {copy.sub || "Millones de productos, ofertas diarias y compra segura."}
                 </p>
-              </div>
-              <div className="aspect-[16/9] rounded-lg brand-gradient shadow-lg" />
+              </Motion>
+              <StockImage template="tiendas" variant="hero" className="aspect-[16/9] w-full shadow-lg" overlay />
             </div>
           </div>
         </header>

@@ -1,4 +1,7 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import { SubPagePills } from "../components/SubPagePills";
+import StockImage from "../components/StockImage";
+import { Motion } from "../components/motion";
 import type { Copy } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 import GenericSection from "../catalog/GenericSection";
@@ -37,17 +40,18 @@ export default function ColegiosTemplate({
 
   return (
     <div id="top">
-      <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Admisión" ctaHref="#admision" />
+      <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Admisión" ctaHref="#admision" dark />
+      <SubPagePills items={nav} />
 
       {show("hero") && (
-      <header className="relative overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0 -z-10 brand-gradient opacity-90" />
+      <header className="relative overflow-hidden section-alt-dark">
         <div className="absolute inset-0 -z-10 opacity-20 [background-image:radial-gradient(white_1.5px,transparent_1.5px)] [background-size:28px_28px]" />
-        <div className="mx-auto max-w-6xl px-6 py-24 lg:py-32">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-2 lg:py-28">
+          <Motion variant="left">
           <span className="inline-block rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold backdrop-blur">
             {copy.eyebrow || "Admisión 2027 abierta"}
           </span>
-          <h1 className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
+          <h1 className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.02] tracking-tight text-white sm:text-6xl">
             {copy.head || "El colegio que las familias eligen con confianza"}
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/85">
@@ -55,13 +59,17 @@ export default function ColegiosTemplate({
               `En ${cliente} formamos personas íntegras: combinamos excelencia académica, valores y una comunidad que acompaña a cada estudiante en su camino.`}
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
-            <a href="#admision" className="inline-flex h-12 items-center rounded-full bg-white px-7 font-semibold text-slate-900 transition hover:bg-white/90">
+            <a href="#admision" className="pulse-brand inline-flex h-12 items-center rounded-full bg-white px-7 font-semibold text-slate-900 transition hover:bg-white/90">
               Inscríbete al Open Day
             </a>
             <a href="#oferta" className="inline-flex h-12 items-center rounded-full border border-white/40 px-7 font-semibold text-white transition hover:bg-white/10">
               Conocer la propuesta
             </a>
           </div>
+          </Motion>
+          <Motion variant="right">
+            <StockImage template="colegios" variant="hero" className="h-72 w-full lg:h-[400px]" overlay />
+          </Motion>
         </div>
       </header>
       )}

@@ -1,4 +1,7 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import { SubPagePills } from "../components/SubPagePills";
+import StockImage from "../components/StockImage";
+import { Motion } from "../components/motion";
 import type { Copy } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 
@@ -77,11 +80,13 @@ export default function CorporativoTemplate({
   return (
     <div id="top" className="bg-white">
       <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Únete al equipo" ctaHref="#contacto" />
+      <SubPagePills items={nav} />
 
       {/* Hero editorial tipo Credicorp */}
       {show("hero") && (
-        <header className="relative border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
-          <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
+        <header className="relative border-b border-slate-100 section-alt-a">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:py-24">
+            <Motion variant="left">
             <p className="text-sm font-semibold uppercase tracking-widest text-brand">
               {copy.eyebrow || "Líder en su industria · Perú y LATAM"}
             </p>
@@ -100,7 +105,7 @@ export default function CorporativoTemplate({
             <div className="mt-10 flex flex-wrap gap-4">
               <a
                 href="#quienes_somos"
-                className="inline-flex h-12 items-center rounded-full bg-brand px-8 font-semibold text-white"
+                className="pulse-brand inline-flex h-12 items-center rounded-full bg-brand px-8 font-semibold text-white"
               >
                 Conócenos
               </a>
@@ -111,6 +116,10 @@ export default function CorporativoTemplate({
                 Líneas de negocio
               </a>
             </div>
+            </Motion>
+            <Motion variant="right">
+              <StockImage template="corporativo" variant="hero" className="h-64 w-full lg:h-[380px]" overlay />
+            </Motion>
           </div>
         </header>
       )}

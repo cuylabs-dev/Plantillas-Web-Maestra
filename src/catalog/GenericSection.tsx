@@ -1,4 +1,6 @@
 import { Section, SectionHead } from "../components/site";
+import StockImage from "../components/StockImage";
+import { MotionStagger } from "../components/motion";
 import type { Template } from "../lib/params";
 
 interface Props {
@@ -6,6 +8,8 @@ interface Props {
   template: Template;
   cliente: string;
   dark?: boolean;
+  /** Fuerza fondo claro + texto oscuro (mejor contraste en gyms oscuros). */
+  light?: boolean;
 }
 
 const CONTENT: Partial<
@@ -96,35 +100,58 @@ const CONTENT: Partial<
   },
 };
 
-export default function GenericSection({ id, template, cliente, dark }: Props) {
+export default function GenericSection({ id, template, cliente, dark, light }: Props) {
   const block = CONTENT[template]?.[id];
   if (!block) return null;
   const subtitle = block.subtitle.replace("{cliente}", cliente);
+  const onLight = light || !dark;
+  const altClass =
+    id.length % 2 === 0 ? "section-alt-a" : onLight ? "section-alt-b" : "section-alt-dark";
 
   return (
-    <Section id={id} className={dark ? "border-y border-white/10" : "border-y border-slate-100"}>
-      <SectionHead eyebrow={cliente} title={block.title} subtitle={subtitle} center />
+    <Section
+      id={id}
+      className={
+        onLight
+          ? `border-y border-slate-200 text-slate-900 ${altClass}`
+          : `border-y border-white/10 text-white ${altClass}`
+      }
+    >
+      <SectionHead eyebrow={cliente} title={block.title} subtitle={subtitle} center dark={!onLight} />
       {block.items && (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {block.items.map((item) => (
-            <div
-              key={item}
-              className={`rounded-2xl p-6 ${
-                dark ? "border border-white/10 bg-white/5" : "border border-slate-100 bg-white shadow-sm"
-              }`}
-            >
-              <p className={`font-semibold ${dark ? "text-white" : "text-slate-800"}`}>{item}</p>
-            </div>
-          ))}
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <StockImage
+            template={template}
+            variant="section"
+            alt=""
+            className="h-56 w-full lg:h-80"
+            overlay
+          />
+          <MotionStagger
+            className="grid gap-4 sm:grid-cols-2"
+            staggerMs={70}
+            children={block.items.map((item) => (
+              <div
+                key={item}
+                className={`rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg ${
+                  onLight
+                    ? "border border-slate-200 bg-white shadow-sm"
+                    : "border border-white/10 bg-white/10"
+                }`}
+              >
+                <p className={`font-semibold ${onLight ? "text-slate-800" : "text-white"}`}>{item}</p>
+              </div>
+            ))}
+          />
         </div>
       )}
       {!block.items && (
         <div
           className={`mx-auto max-w-3xl rounded-3xl p-10 text-center ${
-            dark ? "bg-white/5" : "bg-brand-soft"
+            onLight ? "bg-brand-soft" : "bg-white/5"
           }`}
         >
-          <p className={dark ? "text-white/70" : "text-slate-600"}>{subtitle}</p>
+          <p className={onLight ? "text-slate-600" : "text-white/75"}>{subtitle}</p>
         </div>
       )}
     </Section>

@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { SiteNav, Section, SiteFooter } from "../components/site";
+import { SubPagePills } from "../components/SubPagePills";
+import StockImage from "../components/StockImage";
+import { Motion } from "../components/motion";
 import type { Copy, GymVariant } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 import GenericSection from "../catalog/GenericSection";
@@ -8,6 +11,7 @@ import {
   EventosGymSection,
   EventosPeleasSection,
 } from "../components/GymExtraSections";
+import { GymStatsSection, GymTestimonialsCarousel } from "../components/GymSections";
 
 function normalizeVariant(v?: GymVariant): ActiveVariant {
   if (v === "studio") return "crossfit";
@@ -160,7 +164,9 @@ export default function GimnasiosTemplate({
   const C = CONTENT[v];
   const show = makeShow(activeSections);
   const nav = buildNavLinks("gimnasios", activeSections);
+  /** Secciones con fondo oscuro (texto siempre claro ahí). */
   const dark = v !== "wellness";
+  const genericDark = dark;
   const [open, setOpen] = useState(0);
   const isLight = v === "wellness";
   const isFight = v === "fight";
@@ -203,13 +209,15 @@ export default function GimnasiosTemplate({
         cta={C.navCta}
         dark={!isLight}
       />
+      <SubPagePills items={nav} />
 
       {show("hero") && (
       <header className={`relative overflow-hidden ${heroClass}`}>
         {!isLight && (
-          <div className="absolute right-[-10%] top-[-20%] -z-10 h-[500px] w-[500px] rounded-full brand-gradient opacity-20 blur-3xl" />
+          <div className="absolute right-[-10%] top-[-20%] -z-10 h-[500px] w-[500px] rounded-full brand-gradient opacity-20 blur-3xl float-soft" />
         )}
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:py-24">
+          <Motion variant="left" className="order-2 lg:order-1">
           {isCross && (
             <div className="mb-8 grid grid-cols-3 gap-4 max-w-lg text-center text-sm">
               {["45 min", "HIIT", "Comunidad"].map((s) => (
@@ -246,7 +254,7 @@ export default function GimnasiosTemplate({
           <div className="mt-9 flex flex-wrap gap-4">
             <a
               href="#planes"
-              className={`inline-flex items-center rounded-full bg-brand px-8 py-3.5 font-bold text-white transition hover:opacity-90 ${
+              className={`pulse-brand inline-flex items-center rounded-full bg-brand px-8 py-3.5 font-bold text-white transition hover:opacity-90 ${
                 isFight ? "uppercase tracking-widest" : ""
               }`}
             >
@@ -263,11 +271,20 @@ export default function GimnasiosTemplate({
               {C.cta2}
             </a>
           </div>
+          </Motion>
+          <Motion variant="right" className="order-1 lg:order-2">
+            <StockImage
+              template="gimnasios"
+              variant="hero"
+              className="h-64 w-full shadow-brand lg:h-[420px]"
+              overlay
+            />
+          </Motion>
         </div>
       </header>
       )}
 
-      {show("stats") && <GenericSection id="stats" template="gimnasios" cliente={cliente} dark={dark} />}
+      {show("stats") && <GymStatsSection cliente={cliente} />}
 
       {show("entrenamiento") && (
       <Section id="entrenamiento" className={isLight ? "border-y border-slate-200" : "border-y border-white/10"}>
@@ -277,8 +294,8 @@ export default function GimnasiosTemplate({
               <div className={`text-5xl font-extrabold ${isLight ? "text-brand" : "text-brand"}`}>
                 0{i + 1}
               </div>
-              <h3 className={`mt-3 text-xl font-bold ${isLight ? "text-slate-900" : ""}`}>{b.t}</h3>
-              <p className={`mt-2 ${isLight ? "text-slate-600" : "text-white/60"}`}>{b.d}</p>
+              <h3 className={`mt-3 text-xl font-bold ${isLight ? "text-slate-900" : "text-white"}`}>{b.t}</h3>
+              <p className={`mt-2 ${isLight ? "text-slate-600" : "text-white/70"}`}>{b.d}</p>
             </div>
           ))}
         </div>
@@ -286,7 +303,7 @@ export default function GimnasiosTemplate({
       )}
 
       {show("beneficios") && (
-        <GenericSection id="beneficios" template="gimnasios" cliente={cliente} dark={dark} />
+        <GenericSection id="beneficios" template="gimnasios" cliente={cliente} dark={false} light />
       )}
 
       {show("coaches_campeones") && (
@@ -300,7 +317,7 @@ export default function GimnasiosTemplate({
           <h2
             className={`mt-3 text-4xl font-extrabold tracking-tight ${
               isFight ? "uppercase" : ""
-            } ${isLight ? "text-slate-900" : ""}`}
+            } ${isLight ? "text-slate-900" : "text-white"}`}
           >
             Elige tu plan
           </h2>
@@ -322,7 +339,7 @@ export default function GimnasiosTemplate({
                   Top
                 </span>
               )}
-              <h3 className={`text-xl font-bold ${isLight ? "text-slate-900" : ""}`}>{p.n}</h3>
+              <h3 className={`text-xl font-bold ${isLight ? "text-slate-900" : "text-white"}`}>{p.n}</h3>
               <p className={isLight ? "text-slate-500" : "text-white/50"}>{p.note}</p>
               <div className="mt-4 text-4xl font-extrabold text-brand">{p.p}</div>
               <ul className="mt-6 space-y-3 text-sm">
@@ -357,7 +374,9 @@ export default function GimnasiosTemplate({
 
       {showPeleas && <EventosPeleasSection cliente={cliente} dark={dark} />}
 
-      {["coaches", "horarios", "galeria", "testimonios"].map(
+      {show("testimonios") && <GymTestimonialsCarousel cliente={cliente} />}
+
+      {["coaches", "horarios", "galeria"].map(
         (sid) =>
           show(sid) && (
             <GenericSection
@@ -365,14 +384,15 @@ export default function GimnasiosTemplate({
               id={sid}
               template="gimnasios"
               cliente={cliente}
-              dark={dark}
+              dark={genericDark}
+              light={!genericDark}
             />
           ),
       )}
 
       {show("faq") && (
       <Section id="faq">
-        <h2 className={`mb-10 text-center text-3xl font-extrabold ${isLight ? "text-slate-900" : ""}`}>
+        <h2 className={`mb-10 text-center text-3xl font-extrabold ${isLight ? "text-slate-900" : "text-white"}`}>
           Preguntas frecuentes
         </h2>
         <div
@@ -386,7 +406,7 @@ export default function GimnasiosTemplate({
                 type="button"
                 onClick={() => setOpen(open === i ? -1 : i)}
                 className={`flex w-full items-center justify-between text-left text-lg font-bold ${
-                  isLight ? "text-slate-900" : ""
+                  isLight ? "text-slate-900" : "text-white"
                 }`}
               >
                 {f.q}
@@ -401,7 +421,9 @@ export default function GimnasiosTemplate({
       </Section>
       )}
 
-      {show("cta") && <GenericSection id="cta" template="gimnasios" cliente={cliente} dark={dark} />}
+      {show("cta") && (
+        <GenericSection id="cta" template="gimnasios" cliente={cliente} dark={genericDark} light={!genericDark} />
+      )}
 
       {show("contacto") && (
       <Section id="contacto" className="bg-brand">

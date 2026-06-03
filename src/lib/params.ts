@@ -54,6 +54,8 @@ export interface LandingConfig {
   logoUrl?: string;
   /** Layout gimnasios: fight | crossfit | wellness | premium | fit */
   gymVariant?: GymVariant;
+  /** Link wa.me para botón flotante (?wa=) */
+  waLink?: string;
 }
 
 import { parseSectionIds, resolveSections } from "../catalog/index";
@@ -106,6 +108,15 @@ function parseLogoUrl(value: string | null): string | undefined {
   return u;
 }
 
+function parseWaLink(value: string | null): string | undefined {
+  if (!value) return undefined;
+  const u = value.trim();
+  if (u.startsWith("https://wa.me/")) return u.slice(0, 200);
+  const digits = u.replace(/\D/g, "");
+  if (digits.length >= 9) return `https://wa.me/${digits}`;
+  return undefined;
+}
+
 export function paletteFromPrimary(hex: string): Record<string, string> | null {
   const n = parseHexPrimary(hex);
   if (!n) return null;
@@ -147,6 +158,7 @@ export function readConfig(search: string = window.location.search): LandingConf
     brandPrimary: parseHexPrimary(p.get("pri")),
     logoUrl: parseLogoUrl(p.get("logo")),
     gymVariant: pickEnum(p.get("v"), GYM_VARIANTS, "fit"),
+    waLink: parseWaLink(p.get("wa")),
   };
 }
 
@@ -176,4 +188,6 @@ export function applyTheme(config: LandingConfig): void {
     root.style.setProperty(`--brand-${k}`, v);
   });
   root.style.setProperty("--brand-font", FONT_STACKS[config.font]);
+  root.style.setProperty("--surface-light", palette[50] || "#f8fafc");
+  root.style.setProperty("--surface-card", "#ffffff");
 }

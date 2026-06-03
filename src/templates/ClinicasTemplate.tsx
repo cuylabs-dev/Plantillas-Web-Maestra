@@ -1,4 +1,7 @@
 import { SiteNav, Section, SectionHead, SiteFooter } from "../components/site";
+import { SubPagePills } from "../components/SubPagePills";
+import StockImage from "../components/StockImage";
+import { Motion } from "../components/motion";
 import type { Copy } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 import GenericSection from "../catalog/GenericSection";
@@ -39,12 +42,13 @@ export default function ClinicasTemplate({
   return (
     <div id="top">
       <SiteNav cliente={cliente} logoUrl={logoUrl} links={nav} cta="Reservar cita" />
+      <SubPagePills items={nav} />
 
       {show("hero") && (
       <header className="relative overflow-hidden bg-brand-soft">
-        <div className="absolute right-[-10%] top-[-20%] h-[420px] w-[420px] rounded-full brand-gradient opacity-20 blur-3xl" />
+        <div className="absolute right-[-10%] top-[-20%] h-[420px] w-[420px] rounded-full brand-gradient opacity-20 blur-3xl float-soft" />
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-2 lg:py-28">
-          <div>
+          <Motion variant="left">
             <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-brand shadow-sm">
               ● {copy.eyebrow || "Atención presencial y online"}
             </span>
@@ -63,14 +67,14 @@ export default function ClinicasTemplate({
                 Ver especialidades
               </a>
             </div>
-          </div>
-          <div className="relative">
-            <div className="aspect-[4/3] rounded-3xl brand-gradient opacity-90 shadow-2xl" />
-            <div className="absolute -bottom-6 -left-6 rounded-2xl bg-white p-5 shadow-xl">
+          </Motion>
+          <Motion variant="right" className="relative">
+            <StockImage template="clinicas" variant="hero" className="aspect-[4/3] w-full shadow-2xl" overlay />
+            <div className="absolute -bottom-6 -left-6 rounded-2xl bg-white p-5 shadow-xl pulse-brand">
               <div className="text-3xl font-extrabold text-brand">24/7</div>
               <div className="text-sm text-slate-500">Reserva en línea</div>
             </div>
-          </div>
+          </Motion>
         </div>
       </header>
       )}

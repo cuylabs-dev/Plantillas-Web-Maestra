@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { readConfig, applyTheme, type Template, type Copy, type GymVariant } from "./lib/params";
+import { WhatsAppFloat } from "./components/site";
+import { PageEnter } from "./components/motion";
 import ClinicasTemplate from "./templates/ClinicasTemplate";
 import CorporativoTemplate from "./templates/CorporativoTemplate";
 import GimnasiosTemplate from "./templates/GimnasiosTemplate";
@@ -32,12 +34,15 @@ export default function App() {
 
   const Template = TEMPLATES[config.template];
   return (
-    <Template
-      cliente={config.cliente}
-      copy={config.copy}
-      logoUrl={config.logoUrl}
-      gymVariant={config.gymVariant}
-      activeSections={config.sections}
-    />
+    <PageEnter>
+      <Template
+        cliente={config.cliente}
+        copy={config.copy}
+        logoUrl={config.logoUrl}
+        gymVariant={config.gymVariant}
+        activeSections={config.sections}
+      />
+      <WhatsAppFloat href={config.waLink} />
+    </PageEnter>
   );
 }
