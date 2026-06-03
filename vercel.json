@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/api/kit/:slug", "destination": "/api/kit/:slug" }]
+}

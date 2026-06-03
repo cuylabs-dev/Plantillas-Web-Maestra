@@ -1,6 +1,7 @@
 import { Section, SectionHead } from "../components/site";
 import StockImage from "../components/StockImage";
 import { MotionStagger } from "../components/motion";
+import { useBrandKit } from "../context/BrandKitContext";
 import type { Template } from "../lib/params";
 
 interface Props {
@@ -101,9 +102,13 @@ const CONTENT: Partial<
 };
 
 export default function GenericSection({ id, template, cliente, dark, light }: Props) {
+  const kit = useBrandKit();
+  const kitBlock = kit?.sectionsCopy?.[id] as { title?: string; subtitle?: string; items?: string[] } | undefined;
   const block = CONTENT[template]?.[id];
-  if (!block) return null;
-  const subtitle = block.subtitle.replace("{cliente}", cliente);
+  if (!block && !kitBlock) return null;
+  const title = kitBlock?.title || block?.title || id;
+  const subtitle = (kitBlock?.subtitle || block?.subtitle || "").replace("{cliente}", cliente);
+  const items = kitBlock?.items || block?.items;
   const onLight = light || !dark;
   const altClass =
     id.length % 2 === 0 ? "section-alt-a" : onLight ? "section-alt-b" : "section-alt-dark";
@@ -117,8 +122,8 @@ export default function GenericSection({ id, template, cliente, dark, light }: P
           : `border-y border-white/10 text-white ${altClass}`
       }
     >
-      <SectionHead eyebrow={cliente} title={block.title} subtitle={subtitle} center dark={!onLight} />
-      {block.items && (
+      <SectionHead eyebrow={cliente} title={title} subtitle={subtitle} center dark={!onLight} />
+      {items && (
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <StockImage
             template={template}
@@ -130,7 +135,7 @@ export default function GenericSection({ id, template, cliente, dark, light }: P
           <MotionStagger
             className="grid gap-4 sm:grid-cols-2"
             staggerMs={70}
-            children={block.items.map((item) => (
+            children={items.map((item) => (
               <div
                 key={item}
                 className={`rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg ${
@@ -145,7 +150,7 @@ export default function GenericSection({ id, template, cliente, dark, light }: P
           />
         </div>
       )}
-      {!block.items && (
+      {!items && (
         <div
           className={`mx-auto max-w-3xl rounded-3xl p-10 text-center ${
             onLight ? "bg-brand-soft" : "bg-white/5"

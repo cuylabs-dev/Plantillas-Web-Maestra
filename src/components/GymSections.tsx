@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Section, SectionHead } from "./site";
+import { useBrandKit } from "../context/BrandKitContext";
+import type { TestimonialCopy } from "../lib/kit";
 
 const GYM_STATS = [
   { v: "+500", l: "miembros activos", accent: "from-orange-500 to-amber-400" },
@@ -42,6 +44,17 @@ const GYM_TESTIMONIALS = [
 ];
 
 export function GymStatsSection({ cliente }: { cliente: string }) {
+  const kit = useBrandKit();
+  const statsItems = (kit?.sectionsCopy?.stats as { items?: string[] })?.items;
+  const stats = statsItems?.length
+    ? statsItems.map((item, i) => {
+        const parts = item.split(/\s+/);
+        const v = parts[0] || item;
+        const l = parts.slice(1).join(" ") || item;
+        return { v, l, accent: GYM_STATS[i % GYM_STATS.length].accent };
+      })
+    : GYM_STATS;
+
   return (
     <Section id="stats" className="bg-white text-slate-900">
       <SectionHead
@@ -51,7 +64,7 @@ export function GymStatsSection({ cliente }: { cliente: string }) {
         center
       />
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {GYM_STATS.map((s, i) => (
+        {stats.map((s, i) => (
           <div
             key={s.l}
             className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
@@ -76,19 +89,21 @@ export function GymStatsSection({ cliente }: { cliente: string }) {
 }
 
 export function GymTestimonialsCarousel({ cliente }: { cliente: string }) {
+  const kit = useBrandKit();
+  const kitReviews = kit?.sectionsCopy?.testimonios;
+  const reviews: TestimonialCopy[] = Array.isArray(kitReviews) && kitReviews.length >= 4
+    ? (kitReviews as TestimonialCopy[])
+    : GYM_TESTIMONIALS;
+
   const [idx, setIdx] = useState(0);
-  const n = GYM_TESTIMONIALS.length;
+  const n = reviews.length;
 
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % n), 5500);
     return () => clearInterval(t);
   }, [n]);
 
-  const visible = [
-    GYM_TESTIMONIALS[idx],
-    GYM_TESTIMONIALS[(idx + 1) % n],
-    GYM_TESTIMONIALS[(idx + 2) % n],
-  ];
+  const visible = [reviews[idx], reviews[(idx + 1) % n], reviews[(idx + 2) % n]];
 
   return (
     <Section id="testimonios" className="bg-slate-50 text-slate-900">
@@ -120,7 +135,7 @@ export function GymTestimonialsCarousel({ cliente }: { cliente: string }) {
           ))}
         </div>
         <div className="mt-6 flex justify-center gap-2">
-          {GYM_TESTIMONIALS.map((_, i) => (
+          {reviews.map((_, i) => (
             <button
               key={i}
               type="button"

@@ -12,6 +12,7 @@ import {
   EventosPeleasSection,
 } from "../components/GymExtraSections";
 import { GymStatsSection, GymTestimonialsCarousel } from "../components/GymSections";
+import BrandGallery from "../components/BrandGallery";
 
 function normalizeVariant(v?: GymVariant): ActiveVariant {
   if (v === "studio") return "crossfit";
@@ -376,7 +377,9 @@ export default function GimnasiosTemplate({
 
       {show("testimonios") && <GymTestimonialsCarousel cliente={cliente} />}
 
-      {["coaches", "horarios", "galeria"].map(
+      {show("galeria") && <BrandGallery template="gimnasios" />}
+
+      {["coaches", "horarios"].map(
         (sid) =>
           show(sid) && (
             <GenericSection

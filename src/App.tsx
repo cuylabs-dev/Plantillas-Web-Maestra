@@ -1,5 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { readConfig, applyTheme, type Template, type Copy, type GymVariant } from "./lib/params";
+import { fetchBrandKit, applyKitTheme, loadGoogleFonts } from "./lib/kit";
+import { BrandKitProvider } from "./context/BrandKitContext";
 import { WhatsAppFloat } from "./components/site";
 import { PageEnter } from "./components/motion";
 import ClinicasTemplate from "./templates/ClinicasTemplate";
@@ -25,24 +27,73 @@ const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
 };
 
 export default function App() {
+  const baseConfig = useMemo(() => readConfig(), []);
+  const [kit, setKit] = useState<Awaited<ReturnType<typeof fetchBrandKit>>>(null);
+  const [ready, setReady] = useState(!baseConfig.kitSlug);
+
+  useEffect(() => {
+    const slug = baseConfig.kitSlug;
+    if (!slug) {
+      applyTheme(baseConfig);
+      document.title = `${baseConfig.cliente} | Propuesta web`;
+      setReady(true);
+      return;
+    }
+    fetchBrandKit(slug).then((k) => {
+      setKit(k);
+      if (k) {
+        applyKitTheme(k);
+        loadGoogleFonts(k.fonts);
+        document.title = `${k.cliente} | Propuesta web`;
+      } else {
+        applyTheme(baseConfig);
+        document.title = `${baseConfig.cliente} | Propuesta web`;
+      }
+      setReady(true);
+    });
+  }, [baseConfig]);
+
   const config = useMemo(() => {
-    const cfg = readConfig();
-    applyTheme(cfg);
-    document.title = `${cfg.cliente} | Propuesta web`;
-    return cfg;
-  }, []);
+    if (!kit) return baseConfig;
+    return {
+      ...baseConfig,
+      cliente: kit.cliente,
+      template: kit.template,
+      color: kit.color,
+      font: kit.font,
+      brandPrimary: kit.colors.primary,
+      copy: {
+        head: kit.copy.head || baseConfig.copy.head,
+        sub: kit.copy.sub || baseConfig.copy.sub,
+        eyebrow: kit.copy.eyebrow || baseConfig.copy.eyebrow,
+      },
+      logoUrl: kit.logo || baseConfig.logoUrl,
+      gymVariant: (kit.variant as GymVariant) || baseConfig.gymVariant,
+      sections: kit.sections?.length ? kit.sections : baseConfig.sections,
+    };
+  }, [baseConfig, kit]);
+
+  if (!ready) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-slate-600">
+        Cargando propuesta personalizada…
+      </div>
+    );
+  }
 
   const Template = TEMPLATES[config.template];
   return (
-    <PageEnter>
-      <Template
-        cliente={config.cliente}
-        copy={config.copy}
-        logoUrl={config.logoUrl}
-        gymVariant={config.gymVariant}
-        activeSections={config.sections}
-      />
-      <WhatsAppFloat href={config.waLink} />
-    </PageEnter>
+    <BrandKitProvider kit={kit}>
+      <PageEnter>
+        <Template
+          cliente={config.cliente}
+          copy={config.copy}
+          logoUrl={config.logoUrl}
+          gymVariant={config.gymVariant}
+          activeSections={config.sections}
+        />
+        <WhatsAppFloat href={config.waLink} />
+      </PageEnter>
+    </BrandKitProvider>
   );
 }

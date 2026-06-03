@@ -1,5 +1,6 @@
 import type { Template } from "../lib/params";
 import { stockFor } from "../lib/stockImages";
+import { useBrandKit } from "../context/BrandKitContext";
 import { Motion } from "./motion";
 
 type Variant = "hero" | "section" | "people" | "detail";
@@ -19,7 +20,10 @@ export default function StockImage({
   rounded?: string;
   overlay?: boolean;
 }) {
-  const src = stockFor(template)[variant];
+  const kit = useBrandKit();
+  const kitSrc =
+    variant === "hero" ? kit?.heroImage || kit?.gallery?.[0] : kit?.gallery?.[1];
+  const src = kitSrc || stockFor(template)[variant];
   return (
     <Motion variant="scale" className={`relative overflow-hidden ${rounded} ${className}`}>
       <img

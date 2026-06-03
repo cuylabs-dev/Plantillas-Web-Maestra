@@ -56,6 +56,8 @@ export interface LandingConfig {
   gymVariant?: GymVariant;
   /** Link wa.me para botón flotante (?wa=) */
   waLink?: string;
+  /** Manifest de marca (?kit=slug) */
+  kitSlug?: string;
 }
 
 import { parseSectionIds, resolveSections } from "../catalog/index";
@@ -159,6 +161,7 @@ export function readConfig(search: string = window.location.search): LandingConf
     logoUrl: parseLogoUrl(p.get("logo")),
     gymVariant: pickEnum(p.get("v"), GYM_VARIANTS, "fit"),
     waLink: parseWaLink(p.get("wa")),
+    kitSlug: (p.get("kit") || "").trim() || undefined,
   };
 }
 
