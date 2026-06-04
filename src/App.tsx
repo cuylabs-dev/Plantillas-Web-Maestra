@@ -41,12 +41,16 @@ export default function App() {
       return;
     }
     fetchBrandKit(slug).then((k) => {
-      setKit(k);
       if (k) {
+        if (baseConfig.brandPrimary) k.colors.primary = baseConfig.brandPrimary;
+        if (baseConfig.brandSecondary) k.colors.secondary = baseConfig.brandSecondary;
+        if (baseConfig.color) k.color = baseConfig.color;
+        setKit(k);
         applyKitTheme(k);
         loadGoogleFonts(k.fonts);
         document.title = `${k.cliente} | Propuesta web`;
       } else {
+        setKit(null);
         applyTheme(baseConfig);
         document.title = `${baseConfig.cliente} | Propuesta web`;
       }
@@ -62,7 +66,8 @@ export default function App() {
       template: kit.template,
       color: kit.color,
       font: kit.font,
-      brandPrimary: kit.colors.primary,
+      brandPrimary: kit.colors.primary?.replace(/^#/, ""),
+      brandSecondary: kit.colors.secondary?.replace(/^#/, ""),
       copy: {
         head: kit.copy.head || baseConfig.copy.head,
         sub: kit.copy.sub || baseConfig.copy.sub,

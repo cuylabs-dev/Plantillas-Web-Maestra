@@ -1,7 +1,7 @@
 // ============================================================================
 // CONTRATO DE URL  (debe coincidir EXACTO con el generador en preparador.js)
 //   ?cliente=&template=&color=&font=&blocks=&sec=&head=&sub=&eb=&pri=<hex>&logo=<https url>
-// Si cambias un nombre aqui, hay que cambiarlo tambien en el Investigador.
+// Si cambias un nombre aqui, hay que cambiarlo tambien en Roberto (preparador.js).
 // ============================================================================
 
 export const TEMPLATES = [
@@ -48,8 +48,10 @@ export interface LandingConfig {
   /** Secciones modulares activas (?sec=hero,planes,...) */
   sections: string[];
   copy: Copy;
-  /** Color primario de marca (#hex sin #) desde logo / Gemini Vision */
+  /** Color primario de marca (#hex sin #) desde logo / Roberto */
   brandPrimary?: string;
+  /** Color secundario (?sec=) */
+  brandSecondary?: string;
   /** URL del logo para el navbar (HTTPS, corta) */
   logoUrl?: string;
   /** Layout gimnasios: fight | crossfit | wellness | premium | fit */
@@ -158,6 +160,7 @@ export function readConfig(search: string = window.location.search): LandingConf
       eyebrow: cleanText(p.get("eb"), 48),
     },
     brandPrimary: parseHexPrimary(p.get("pri")),
+    brandSecondary: parseHexPrimary(p.get("sec")),
     logoUrl: parseLogoUrl(p.get("logo")),
     gymVariant: pickEnum(p.get("v"), GYM_VARIANTS, "fit"),
     waLink: parseWaLink(p.get("wa")),
@@ -193,4 +196,7 @@ export function applyTheme(config: LandingConfig): void {
   root.style.setProperty("--brand-font", FONT_STACKS[config.font]);
   root.style.setProperty("--surface-light", palette[50] || "#f8fafc");
   root.style.setProperty("--surface-card", "#ffffff");
+  if (config.brandSecondary) {
+    root.style.setProperty("--brand-secondary", `#${config.brandSecondary}`);
+  }
 }
