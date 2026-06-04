@@ -25,6 +25,10 @@ export const SECTION_CATALOG: Record<Template, readonly string[]> = {
   hoteles: [
     "hero", "habitaciones", "amenidades", "reservas", "ubicacion", "galeria", "testimonios", "faq", "cta", "contacto",
   ],
+  inmobiliarias: [
+    "hero", "busqueda", "propiedades", "zonas", "servicios", "proceso", "stats", "quienes_somos", "equipo",
+    "galeria", "testimonios", "faq", "cta", "contacto",
+  ],
 };
 
 export const DEFAULT_SECTIONS: Record<Template, string[]> = {
@@ -35,9 +39,12 @@ export const DEFAULT_SECTIONS: Record<Template, string[]> = {
   colegios: ["hero", "niveles", "metodologia", "admision", "instalaciones", "faq", "cta", "contacto"],
   tiendas: ["hero", "prime_banner", "categorias", "filas", "grid_catalogo", "ofertas", "envios", "contacto"],
   corporativo: [
-    "hero", "stats_holding", "quienes_somos", "lineas_negocio", "valores", "prioridades", "noticias", "contacto",
+    "hero", "servicios", "casos", "metodologia", "metricas", "equipo", "faq", "cta", "contacto",
   ],
   hoteles: ["hero", "habitaciones", "amenidades", "reservas", "ubicacion", "galeria", "faq", "contacto"],
+  inmobiliarias: [
+    "hero", "propiedades", "zonas", "servicios", "proceso", "quienes_somos", "testimonios", "faq", "cta", "contacto",
+  ],
 };
 
 const NAV_LABELS: Record<Template, Record<string, string>> = {
@@ -134,6 +141,22 @@ const NAV_LABELS: Record<Template, Record<string, string>> = {
     testimonios: "Opiniones",
     faq: "FAQ",
     cta: "Reservar",
+    contacto: "Contacto",
+  },
+  inmobiliarias: {
+    hero: "Inicio",
+    busqueda: "Buscar",
+    propiedades: "Propiedades",
+    zonas: "Zonas",
+    servicios: "Servicios",
+    proceso: "Proceso",
+    stats: "Cifras",
+    quienes_somos: "Nosotros",
+    equipo: "Asesores",
+    galeria: "Galería",
+    testimonios: "Clientes",
+    faq: "FAQ",
+    cta: "Visita",
     contacto: "Contacto",
   },
 };

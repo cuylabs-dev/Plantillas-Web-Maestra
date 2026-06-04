@@ -118,6 +118,36 @@ const CONTENT: Partial<
     cta: { title: "Reserva tu estadía", subtitle: "Cupos limitados — confirma por WhatsApp." },
     contacto: { title: "Contacto", subtitle: "Recepción y reservas 24/7." },
   },
+  inmobiliarias: {
+    zonas: {
+      title: "Zonas de Lima",
+      subtitle: "Cobertura en los distritos más buscados",
+      items: ["Miraflores y Barranco", "San Isidro", "Surco y La Molina", "San Borja"],
+    },
+    servicios: {
+      title: "Servicios",
+      subtitle: "Todo el ciclo inmobiliario",
+      items: ["Venta", "Alquiler", "Tasación", "Asesoría legal"],
+    },
+    proceso: {
+      title: "Cómo trabajamos",
+      subtitle: "Pasos claros hasta el cierre",
+      items: ["Asesoría inicial", "Visitas coordinadas", "Negociación", "Cierre seguro"],
+    },
+    equipo: {
+      title: "Nuestros asesores",
+      subtitle: "Equipo local con experiencia en el mercado limeño",
+      items: ["Asesor residencial", "Asesor corporativo", "Especialista legal"],
+    },
+    testimonios: { title: "Lo que dicen nuestros clientes", subtitle: "Compradores y propietarios en Lima." },
+    faq: {
+      title: "Preguntas frecuentes",
+      subtitle: "Comisiones, documentos y tiempos de cierre.",
+      items: ["¿Cobran comisión al comprador?", "¿Cuánto demora una venta?", "¿Hacen tasaciones?"],
+    },
+    cta: { title: "Agenda tu visita", subtitle: "Te respondemos por WhatsApp el mismo día." },
+    contacto: { title: "Contacto", subtitle: "Oficina en Lima · visitas con cita previa." },
+  },
 };
 
 export default function GenericSection({ id, template, cliente, dark, light }: Props) {

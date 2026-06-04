@@ -41,6 +41,12 @@ export const STOCK_IMAGES: Record<
     people: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80",
     detail: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",
   },
+  inmobiliarias: {
+    hero: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+    section: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    people: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80",
+    detail: "https://images.unsplash.com/photo-1600047509807-ba8f84d629cb?w=800&q=80",
+  },
 };
 
 export function stockFor(template: Template) {

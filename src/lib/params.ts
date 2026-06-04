@@ -11,6 +11,7 @@ export const TEMPLATES = [
   "colegios",
   "tiendas",
   "hoteles",
+  "inmobiliarias",
 ] as const;
 export type Template = (typeof TEMPLATES)[number];
 
