@@ -46,8 +46,16 @@ export interface BrandKit {
   gaps?: string[];
 }
 
+function kitCdnBase(): string {
+  const base = import.meta.env.VITE_KIT_CDN_BASE as string | undefined;
+  return base?.replace(/\/+$/, "") || "";
+}
+
 export async function fetchBrandKit(slug: string): Promise<BrandKit | null> {
-  const paths = [`/kits/${slug}.json`, `/api/kit/${slug}`];
+  const cdn = kitCdnBase();
+  const paths: string[] = [];
+  if (cdn) paths.push(`${cdn}/kits/${slug}.json`);
+  paths.push(`/kits/${slug}.json`, `/api/kit/${slug}`);
   for (const path of paths) {
     try {
       const res = await fetch(path);
