@@ -1,14 +1,10 @@
 import type { ReactNode } from "react";
 import { Motion } from "./motion";
+import { shortenBrandName } from "../lib/displayText";
 
 /** Título corto en navbar (evita romper el menú). */
 export function shortBrandName(name: string, max = 22): string {
-  const clean = name.trim();
-  if (clean.length <= max) return clean;
-  const cut = clean.slice(0, max);
-  const lastSpace = cut.lastIndexOf(" ");
-  if (lastSpace > 10) return `${cut.slice(0, lastSpace)}…`;
-  return `${cut}…`;
+  return shortenBrandName(name, max);
 }
 
 // ---- Navbar reutilizable -----------------------------------------------------

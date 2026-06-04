@@ -12,6 +12,8 @@ import ColegiosTemplate from "./templates/ColegiosTemplate";
 import TiendasTemplate from "./templates/TiendasTemplate";
 import HotelesTemplate from "./templates/HotelesTemplate";
 import InmobiliariasTemplate from "./templates/InmobiliariasTemplate";
+import SpasTemplate from "./templates/SpasTemplate";
+import EsteticaTemplate from "./templates/EsteticaTemplate";
 
 export interface TemplateProps {
   cliente: string;
@@ -29,6 +31,8 @@ const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
   tiendas: TiendasTemplate,
   hoteles: HotelesTemplate,
   inmobiliarias: InmobiliariasTemplate,
+  spas: SpasTemplate,
+  estetica: EsteticaTemplate,
 };
 
 export default function App() {

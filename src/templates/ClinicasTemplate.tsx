@@ -6,6 +6,7 @@ import type { Copy } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 import GenericSection from "../catalog/GenericSection";
 import { useBrandKit } from "../context/BrandKitContext";
+import { formatHeroHeadline, formatHeroSubhead } from "../lib/displayText";
 
 const ESPECIALIDADES = [
   { n: "Dermatología", d: "Cuidado integral de la piel con tecnología de vanguardia." },
@@ -58,11 +59,15 @@ export default function ClinicasTemplate({
               ● {copy.eyebrow || "Atención presencial y online"}
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-6xl">
-              {copy.head ? copy.head : <>Bienvenidos a <span className="text-brand">{cliente}</span></>}
+              {formatHeroHeadline(copy.head, cliente, 52) || (
+                <>
+                  Salud y cuidado en <span className="text-brand">{cliente.split(/[-–|]/)[0].trim()}</span>
+                </>
+              )}
             </h1>
             <p className="mt-5 max-w-lg text-lg text-slate-600">
-              {copy.sub ||
-                "Servicios integrales de salud y de vanguardia para lograr tu plena recuperación en el menor tiempo posible, con un equipo multidisciplinario que te acompaña."}
+              {formatHeroSubhead(copy.sub, 150) ||
+                `Citas, especialidades y atención cercana en ${cliente.split(/[-–|]/)[0].trim()}.`}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href="#contacto" className="inline-flex h-12 items-center rounded-full bg-brand px-7 font-semibold text-white shadow-lg transition hover:opacity-90">

@@ -29,6 +29,13 @@ export const SECTION_CATALOG: Record<Template, readonly string[]> = {
     "hero", "busqueda", "propiedades", "zonas", "servicios", "proceso", "stats", "quienes_somos", "equipo",
     "galeria", "testimonios", "faq", "cta", "contacto",
   ],
+  estetica: [
+    "hero", "tratamientos", "antes_despues", "servicios", "equipo", "precios", "reservas", "confianza",
+    "faq", "ubicacion", "cta", "contacto", "galeria",
+  ],
+  spas: [
+    "hero", "rituales", "servicios", "beneficios", "reservas", "galeria", "testimonios", "faq", "cta", "contacto",
+  ],
 };
 
 export const DEFAULT_SECTIONS: Record<Template, string[]> = {
@@ -45,6 +52,8 @@ export const DEFAULT_SECTIONS: Record<Template, string[]> = {
   inmobiliarias: [
     "hero", "propiedades", "zonas", "servicios", "proceso", "quienes_somos", "testimonios", "faq", "cta", "contacto",
   ],
+  estetica: ["hero", "tratamientos", "antes_despues", "reservas", "testimonios", "faq", "cta", "contacto"],
+  spas: ["hero", "rituales", "servicios", "reservas", "testimonios", "faq", "cta", "contacto"],
 };
 
 const NAV_LABELS: Record<Template, Record<string, string>> = {
@@ -158,6 +167,31 @@ const NAV_LABELS: Record<Template, Record<string, string>> = {
     faq: "FAQ",
     cta: "Visita",
     contacto: "Contacto",
+  },
+  estetica: {
+    hero: "Inicio",
+    tratamientos: "Tratamientos",
+    antes_despues: "Resultados",
+    servicios: "Servicios",
+    precios: "Precios",
+    reservas: "Reservar",
+    confianza: "Confianza",
+    faq: "FAQ",
+    cta: "Reservar",
+    contacto: "Contacto",
+    galeria: "Galería",
+  },
+  spas: {
+    hero: "Inicio",
+    rituales: "Rituales",
+    servicios: "Servicios",
+    beneficios: "Beneficios",
+    reservas: "Reservar",
+    testimonios: "Opiniones",
+    faq: "FAQ",
+    cta: "Reservar",
+    contacto: "Contacto",
+    galeria: "Galería",
   },
 };
 

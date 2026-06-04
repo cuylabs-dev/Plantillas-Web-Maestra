@@ -148,6 +148,28 @@ const CONTENT: Partial<
     cta: { title: "Agenda tu visita", subtitle: "Te respondemos por WhatsApp el mismo día." },
     contacto: { title: "Contacto", subtitle: "Oficina en Lima · visitas con cita previa." },
   },
+  estetica: {
+    servicios: { title: "Servicios", subtitle: "Tratamientos a tu medida", items: ["Facial", "Corporal", "Láser"] },
+    confianza: { title: "Por qué elegirnos", subtitle: "Seguridad y resultados." },
+    faq: { title: "FAQ", subtitle: "Sesiones, cuidados y promociones." },
+    cta: { title: "Reserva hoy", subtitle: "Cupos limitados esta semana." },
+    contacto: { title: "Contacto", subtitle: "WhatsApp y citas en Lima." },
+  },
+  spas: {
+    beneficios: {
+      title: "Beneficios",
+      subtitle: "Bienestar integral",
+      items: ["Reduce estrés", "Mejora sueño", "Piel hidratada"],
+    },
+    servicios: {
+      title: "Servicios",
+      subtitle: "Experiencias spa",
+      items: ["Masajes", "Faciales", "Day spa"],
+    },
+    faq: { title: "FAQ", subtitle: "Reservas y políticas." },
+    cta: { title: "Reserva tu ritual", subtitle: "Te confirmamos por WhatsApp." },
+    contacto: { title: "Contacto", subtitle: "Horarios y ubicación." },
+  },
 };
 
 export default function GenericSection({ id, template, cliente, dark, light }: Props) {

@@ -47,6 +47,18 @@ export const STOCK_IMAGES: Record<
     people: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80",
     detail: "https://images.unsplash.com/photo-1600047509807-ba8f84d629cb?w=800&q=80",
   },
+  estetica: {
+    hero: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=80",
+    section: "https://images.unsplash.com/photo-1512290923902-8a9f81dc2360?w=800&q=80",
+    people: "https://images.unsplash.com/photo-1598440947619-45aa65b26435?w=600&q=80",
+    detail: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80",
+  },
+  spas: {
+    hero: "https://images.unsplash.com/photo-1544161515-4ab6fc6a3437?w=1200&q=80",
+    section: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80",
+    people: "https://images.unsplash.com/photo-1519823551278-64b0d8fa809e?w=600&q=80",
+    detail: "https://images.unsplash.com/photo-1507652313519-d4bd90750856?w=800&q=80",
+  },
 };
 
 export function stockFor(template: Template) {

@@ -13,6 +13,7 @@ import {
 } from "../components/GymExtraSections";
 import { GymStatsSection, GymTestimonialsCarousel } from "../components/GymSections";
 import BrandGallery from "../components/BrandGallery";
+import { formatHeroHeadline, formatHeroSubhead, shortenBrandName } from "../lib/displayText";
 
 function normalizeVariant(v?: GymVariant): ActiveVariant {
   if (v === "studio") return "crossfit";
@@ -238,9 +239,9 @@ export default function GimnasiosTemplate({
             {copy.eyebrow || `${cliente}`}
           </span>
           <h1 className={`mt-6 max-w-4xl ${titleClass}`}>
-            {copy.head || (
+            {formatHeroHeadline(copy.head, cliente, 52) || (
               <>
-                Tu mejor versión en <span className="text-brand">{cliente}</span>
+                Tu mejor versión en <span className="text-brand">{shortenBrandName(cliente, 36)}</span>
               </>
             )}
           </h1>
@@ -249,7 +250,7 @@ export default function GimnasiosTemplate({
               isLight ? "text-slate-600" : "text-white/70"
             }`}
           >
-            {copy.sub ||
+            {formatHeroSubhead(copy.sub, 150) ||
               "Entrena con plan, coaches y un ambiente que te empuja a dar más."}
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
