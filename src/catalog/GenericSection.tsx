@@ -104,6 +104,20 @@ const CONTENT: Partial<
     faq: { title: "Preguntas frecuentes", subtitle: "Alcance, plazos y soporte." },
     cta: { title: "Agenda diagnóstico", subtitle: "Sesión inicial sin compromiso." },
   },
+  hoteles: {
+    amenidades: {
+      title: "Amenidades",
+      subtitle: "Todo para una estadía cómoda en {cliente}",
+      items: ["WiFi", "Desayuno", "Estacionamiento", "Room service"],
+    },
+    reservas: { title: "Reserva directa", subtitle: "Mejor tarifa sin comisiones de terceros." },
+    ubicacion: { title: "Ubicación", subtitle: "Cerca de los principales distritos de Lima." },
+    galeria: { title: "Galería", subtitle: "Habitaciones y áreas comunes." },
+    testimonios: { title: "Opiniones de huéspedes", subtitle: "Experiencias reales." },
+    faq: { title: "Preguntas frecuentes", subtitle: "Check-in, cancelaciones y pagos." },
+    cta: { title: "Reserva tu estadía", subtitle: "Cupos limitados — confirma por WhatsApp." },
+    contacto: { title: "Contacto", subtitle: "Recepción y reservas 24/7." },
+  },
 };
 
 export default function GenericSection({ id, template, cliente, dark, light }: Props) {

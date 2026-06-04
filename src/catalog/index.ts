@@ -22,6 +22,9 @@ export const SECTION_CATALOG: Record<Template, readonly string[]> = {
     "presencia", "noticias", "marcas", "sostenibilidad", "servicios", "casos", "metodologia", "equipo",
     "industrias", "partners", "blog_teaser", "faq", "cta", "contacto", "galeria",
   ],
+  hoteles: [
+    "hero", "habitaciones", "amenidades", "reservas", "ubicacion", "galeria", "testimonios", "faq", "cta", "contacto",
+  ],
 };
 
 export const DEFAULT_SECTIONS: Record<Template, string[]> = {
@@ -34,6 +37,7 @@ export const DEFAULT_SECTIONS: Record<Template, string[]> = {
   corporativo: [
     "hero", "stats_holding", "quienes_somos", "lineas_negocio", "valores", "prioridades", "noticias", "contacto",
   ],
+  hoteles: ["hero", "habitaciones", "amenidades", "reservas", "ubicacion", "galeria", "faq", "contacto"],
 };
 
 const NAV_LABELS: Record<Template, Record<string, string>> = {
@@ -118,6 +122,18 @@ const NAV_LABELS: Record<Template, Record<string, string>> = {
     galeria: "Galería",
     faq: "FAQ",
     cta: "Diagnóstico",
+    contacto: "Contacto",
+  },
+  hoteles: {
+    hero: "Inicio",
+    habitaciones: "Habitaciones",
+    amenidades: "Amenidades",
+    reservas: "Reservar",
+    ubicacion: "Ubicación",
+    galeria: "Galería",
+    testimonios: "Opiniones",
+    faq: "FAQ",
+    cta: "Reservar",
     contacto: "Contacto",
   },
 };

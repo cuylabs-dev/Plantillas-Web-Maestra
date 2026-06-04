@@ -35,6 +35,12 @@ export const STOCK_IMAGES: Record<
     people: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80",
     detail: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
   },
+  hoteles: {
+    hero: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80",
+    section: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",
+    people: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80",
+    detail: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",
+  },
 };
 
 export function stockFor(template: Template) {

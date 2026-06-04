@@ -10,6 +10,7 @@ import CorporativoTemplate from "./templates/CorporativoTemplate";
 import GimnasiosTemplate from "./templates/GimnasiosTemplate";
 import ColegiosTemplate from "./templates/ColegiosTemplate";
 import TiendasTemplate from "./templates/TiendasTemplate";
+import HotelesTemplate from "./templates/HotelesTemplate";
 
 export interface TemplateProps {
   cliente: string;
@@ -25,6 +26,7 @@ const TEMPLATES: Record<Template, (p: TemplateProps) => JSX.Element> = {
   gimnasios: GimnasiosTemplate,
   colegios: ColegiosTemplate,
   tiendas: TiendasTemplate,
+  hoteles: HotelesTemplate,
 };
 
 export default function App() {
