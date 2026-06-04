@@ -11,7 +11,9 @@ export default function BrandGallery({
   id?: string;
 }) {
   const kit = useBrandKit();
-  const images = kit?.gallery?.length ? kit.gallery : [];
+  const images = (kit?.gallery || []).filter(
+    (u) => u?.startsWith("http") && !/maps\.gstatic|favicon/i.test(u),
+  );
 
   if (!images.length) {
     return (

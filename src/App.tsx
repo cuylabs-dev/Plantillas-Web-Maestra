@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { readConfig, applyTheme, type Template, type Copy, type GymVariant } from "./lib/params";
 import { fetchBrandKit, applyKitTheme, loadGoogleFonts } from "./lib/kit";
+import { resolveWaLink } from "./lib/waLink";
 import { BrandKitProvider } from "./context/BrandKitContext";
 import { WhatsAppFloat } from "./components/site";
 import { PageEnter } from "./components/motion";
@@ -82,6 +83,8 @@ export default function App() {
   }
 
   const Template = TEMPLATES[config.template];
+  const waHref = resolveWaLink(config.waLink, kit);
+
   return (
     <BrandKitProvider kit={kit}>
       <PageEnter>
@@ -92,8 +95,8 @@ export default function App() {
           gymVariant={config.gymVariant}
           activeSections={config.sections}
         />
-        <WhatsAppFloat href={config.waLink} />
       </PageEnter>
+      <WhatsAppFloat href={waHref} />
     </BrandKitProvider>
   );
 }

@@ -187,12 +187,14 @@ export function SiteFooter({ cliente, tagline, columns, dark = true }: SiteFoote
   );
 }
 
-/** Botón flotante WhatsApp — esquina inferior izquierda en todas las plantillas. */
+/** Botón flotante WhatsApp — fijo en viewport (derecha), siempre visible al hacer scroll. */
 export function WhatsAppFloat({ href = "#contacto" }: { href?: string }) {
   return (
     <a
       href={href}
-      className="fixed bottom-5 left-5 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-emerald-900/30 transition hover:scale-105 hover:shadow-xl"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-5 right-5 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-emerald-900/30 transition hover:scale-105 hover:shadow-xl max-md:bottom-[max(1.25rem,env(safe-area-inset-bottom))] max-md:right-[max(1.25rem,env(safe-area-inset-right))]"
       aria-label="WhatsApp"
       title="Escríbenos por WhatsApp"
     >

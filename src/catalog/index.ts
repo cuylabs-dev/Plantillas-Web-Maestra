@@ -18,8 +18,9 @@ export const SECTION_CATALOG: Record<Template, readonly string[]> = {
     "envios", "reviews", "faq", "cta", "contacto",
   ],
   corporativo: [
-    "hero", "stats_holding", "quienes_somos", "lineas_negocio", "valores", "prioridades",
-    "presencia", "noticias", "marcas", "sostenibilidad", "servicios", "faq", "cta", "contacto",
+    "hero", "stats_holding", "metricas", "quienes_somos", "lineas_negocio", "valores", "prioridades",
+    "presencia", "noticias", "marcas", "sostenibilidad", "servicios", "casos", "metodologia", "equipo",
+    "industrias", "partners", "blog_teaser", "faq", "cta", "contacto", "galeria",
   ],
 };
 
@@ -107,8 +108,16 @@ const NAV_LABELS: Record<Template, Record<string, string>> = {
     marcas: "Marcas",
     sostenibilidad: "Sostenibilidad",
     servicios: "Servicios",
+    casos: "Casos",
+    metodologia: "Método",
+    equipo: "Equipo",
+    metricas: "Impacto",
+    industrias: "Industrias",
+    partners: "Partners",
+    blog_teaser: "Insights",
+    galeria: "Galería",
     faq: "FAQ",
-    cta: "Contacto",
+    cta: "Diagnóstico",
     contacto: "Contacto",
   },
 };

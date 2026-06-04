@@ -89,6 +89,11 @@ const CONTENT: Partial<
     cta: { title: "Compra hoy", subtitle: "Stock limitado en favoritos." },
   },
   corporativo: {
+    servicios: {
+      title: "Servicios para tu empresa",
+      subtitle: "Consultoría a medida para {cliente} y equipos en Lima.",
+      items: ["Diagnóstico operativo", "Implementación ágil", "Capacitación de equipos", "Soporte continuo"],
+    },
     casos: { title: "Casos de éxito", subtitle: "Resultados medibles con clientes en Perú." },
     metodologia: { title: "Cómo trabajamos", subtitle: "Diagnóstico, ejecución y mejora continua." },
     equipo: { title: "Equipo", subtitle: "Consultores senior por industria." },
@@ -128,6 +133,7 @@ export default function GenericSection({ id, template, cliente, dark, light }: P
           <StockImage
             template={template}
             variant="section"
+            sectionId={id}
             alt=""
             className="h-56 w-full lg:h-80"
             overlay

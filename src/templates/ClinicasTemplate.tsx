@@ -5,6 +5,7 @@ import { Motion } from "../components/motion";
 import type { Copy } from "../lib/params";
 import { buildNavLinks, makeShow, DEFAULT_SECTIONS } from "../catalog/index";
 import GenericSection from "../catalog/GenericSection";
+import { useBrandKit } from "../context/BrandKitContext";
 
 const ESPECIALIDADES = [
   { n: "Dermatología", d: "Cuidado integral de la piel con tecnología de vanguardia." },
@@ -38,6 +39,10 @@ export default function ClinicasTemplate({
   const show = makeShow(activeSections);
   const nav = buildNavLinks("clinicas", activeSections);
   const genericIds = ["precios", "reservas", "antes_despues", "seguros", "ubicacion", "faq", "cta"];
+  const kit = useBrandKit();
+  const statItems =
+    (kit?.sectionsCopy?.stats as { items?: string[] } | undefined)?.items ||
+    STATS.map((s) => `${s.v} ${s.l}`);
 
   return (
     <div id="top">
@@ -82,12 +87,15 @@ export default function ClinicasTemplate({
       {show("confianza") && (
       <div id="confianza" className="border-y border-slate-100 bg-white">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-6 py-12 md:grid-cols-4">
-          {STATS.map((s) => (
-            <div key={s.l} className="text-center">
-              <div className="text-4xl font-extrabold text-brand">{s.v}</div>
-              <div className="mt-1 text-sm text-slate-500">{s.l}</div>
-            </div>
-          ))}
+          {statItems.slice(0, 4).map((line) => {
+            const [v, ...rest] = line.split(/\s+/);
+            return (
+              <div key={line} className="text-center">
+                <div className="text-4xl font-extrabold text-brand">{v}</div>
+                <div className="mt-1 text-sm text-slate-500">{rest.join(" ") || cliente}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
       )}

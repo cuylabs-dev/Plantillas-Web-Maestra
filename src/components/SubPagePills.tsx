@@ -5,9 +5,10 @@ export interface SubPageItem {
   href: string;
 }
 
+/** Solo móvil: en desktop el menú va en SiteNav (evita duplicado). */
 export function SubPagePills({ items }: { items: SubPageItem[] }) {
   return (
-    <Motion variant="fade" className="border-b border-slate-200/80 bg-white/90 backdrop-blur">
+    <Motion variant="fade" className="border-b border-slate-200/80 bg-white/90 backdrop-blur md:hidden">
       <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-3 scrollbar-hide sm:px-6">
         {items.map((item) => (
           <a

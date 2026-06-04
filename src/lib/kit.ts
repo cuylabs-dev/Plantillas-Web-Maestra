@@ -43,6 +43,7 @@ export interface BrandKit {
   sections: string[];
   sectionsCopy: Record<string, SectionBlockCopy | TestimonialCopy[]>;
   wa_text?: string;
+  phone_e164?: string | null;
   gaps?: string[];
 }
 
@@ -84,8 +85,12 @@ export function applyKitTheme(kit: BrandKit): void {
   root.style.setProperty("--brand-500", `#${pri}`);
   root.style.setProperty("--brand-600", shade(0.88));
   root.style.setProperty("--brand-700", shade(0.72));
-  root.style.setProperty("--brand-secondary", `#${kit.colors.secondary.replace(/^#/, "")}`);
-  root.style.setProperty("--brand-surface", `#${kit.colors.surface.replace(/^#/, "")}`);
+  const sec = kit.colors.secondary.replace(/^#/, "");
+  const surf = kit.colors.surface.replace(/^#/, "");
+  root.style.setProperty("--brand-secondary", `#${sec}`);
+  root.style.setProperty("--brand-surface", `#${surf}`);
+  root.style.setProperty("--surface-light", `#${surf}`);
+  document.body.style.backgroundColor = `#${surf}`;
 }
 
 export function loadGoogleFonts(fonts: BrandKitFonts): void {
